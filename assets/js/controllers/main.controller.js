@@ -88,6 +88,46 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
   });
 
 
+	// Calcula la aproximacion para una tir determinada
+	var calcularAprox=function(ft,n,tir){
+		var suma=0;
+		for (var i = 0; i < n; i++) {
+			aprox+=(ft[i]/(Math.pow(1+tir,i)));
+		}
+		return parseFloat(suma);
+	}
+
+	var calcularTIR=function(){
+		var tir=10/100;
+		var incremento=1/100;
+		var ft=[-9.388,357,362,366,371,376,380,385,390,395,400,405,410,416,421,-844,432,437,443,448,454,460,466,472,478,484,490,496,502,508,515,-749,528,535,541];
+		var n=ft.length;
+		var aprox=0;
+		var estado='positive';
+
+		for (var i = 0; i < 100; i++) {
+			aprox=clacularAprox(ft,n,tir);
+			if(aprox>0){
+				if(estado=='negative'){
+					estado='positive';
+					incremento*=0.1;
+				}
+				tir+=incremento;
+			}
+			else{
+				if(estado=='positive'){
+					estado='negative';
+					incremento*=0.1;
+				}
+				tir-=incremento;
+			}
+		}
+
+
+
+
+	}
+
   //FUNCTIONS
 
   $scope.sendData = function(){
@@ -185,7 +225,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 
         $scope.energyFlowsCalculation[energyFlowsCode].selfConsumedInstant,
         $scope.energyFlowsCalculation[energyFlowsCode].selfConsumedDeferred,
-        $scope.energyFlowsCalculation[energyFlowsCode].sold, 
+        $scope.energyFlowsCalculation[energyFlowsCode].sold,
         $scope.energyFlowsCalculation[energyFlowsCode].lost
 
       ];
