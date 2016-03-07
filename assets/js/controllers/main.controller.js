@@ -1,28 +1,28 @@
 app.controller("mainController",["$scope","calculoFactory","modelFactory" ,function($scope,calculoFactory, modelFactory){
 	$scope.init=function(){
- 
+
 		initDatos();
 	}
   // Funcion de inicializacion de los datos relacionados con los inputs
   function initDatos(){
-   
+
   	$scope.outputs = {};
     $scope.chartData = {};
     $scope.chartOutputs = {};
     $scope.chartOutputs.energyFlows = {};
     $scope.chartOutputs.impactSelfConsumer = {};
     $scope.chartOutputs.impactElectricitySystem = {};
-    $scope.chartOutputs.impactPublicFinances = {};   
+    $scope.chartOutputs.impactPublicFinances = {};
 
     getDataInputs();
     getCalculation();
-    
+
     $scope.testInputEnergyFlows = [17777, 34, 4555, 34];
     $scope.testInputImpact = [];
     $scope.testInputImpact[0] = [];
     $scope.testInputImpact[0][0] = 3;
     $scope.testPublicFinances = [6003, 5300, 4903, 4500, 2444, 2344, 1230, 403, -233, -344, -1400, -1923, -2654, -2920, -3402, -4002, -5543, -5666, -6003, -6349, -6703, -8003, -8304, -9003, -9600];
-    
+
   }
 
 
@@ -40,7 +40,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
       fillEnergyFlow();
     }
   });
-  
+
   //Cambiar valor de los inputs en model params vinculados a remuneration
   $scope.$watch('outputs.modelParams.remuneration.value', function(newValue, oldValue, scope) {
     if($scope.outputs.modelParams && $scope.inputs){
@@ -53,12 +53,12 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
       }
     }
   });
-  
+
 
   //Cambiar inputs del model params vinculados a Regulation approach
- 
-  $scope.$watch('outputs.regulatory.value', function(newValue, oldValue, scope) {  
-    
+
+  $scope.$watch('outputs.regulatory.value', function(newValue, oldValue, scope) {
+
     if ($scope.outputs.regulatory && $scope.inputs) {
       switch(newValue){
         case 0:
@@ -67,7 +67,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
         $scope.outputs.modelParams.excedentsToll  = 100;
         $scope.outputs.modelParams.investmentAids = 100;
         break;
-        
+
         case 1:
         $scope.outputs.modelParams.remuneration   = $scope.inputs.modelParams[0].options[1];
         $scope.outputs.modelParams.backupToll     = $scope.inputs.modelParams[1].options[0];
@@ -93,7 +93,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
   $scope.sendData = function(){
   	console.log($scope.chartOutputs);
   }
- 
+
   function getCalculation(){
     modelFactory.getEnergyFlowsCalculation().then(
       function(response){
@@ -112,7 +112,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 
   		function(response){
   			$scope.inputs = response.data.inputs;
-  		}, 
+  		},
   		function(error){
   			console.log(error);
   		}
@@ -183,15 +183,15 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 
       $scope.testInputEnergyFlows = [
 
-        $scope.energyFlowsCalculation[energyFlowsCode].selfConsumedInstant, 
-        $scope.energyFlowsCalculation[energyFlowsCode].selfConsumedDeferred, 
-         $scope.energyFlowsCalculation[energyFlowsCode].sold, 
+        $scope.energyFlowsCalculation[energyFlowsCode].selfConsumedInstant,
+        $scope.energyFlowsCalculation[energyFlowsCode].selfConsumedDeferred,
+        $scope.energyFlowsCalculation[energyFlowsCode].sold, 
         $scope.energyFlowsCalculation[energyFlowsCode].lost
 
       ];
 
   }
 
- 
-  
+
+
 }]);
