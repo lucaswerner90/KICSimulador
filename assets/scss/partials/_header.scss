@@ -1,0 +1,41 @@
+.header{
+  height: 286px;
+  width: 100%;
+  background: url('../images/header.jpg') ;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  
+  .opacity-blue {
+    display: table;
+    height: 100%;
+    width: 489px;
+    background: $header-blue;
+    background: $header-opacity-blue;
+    float: right;
+    padding-top: 45px;
+    padding-bottom: 10px;
+    div{
+      display: table-cell;
+      vertical-align: bottom;
+      text-align: center;
+      padding-bottom: 40px;
+      font-family:"Myriad Pro Regular", Arial, Helvetica, sans-serif;
+      color: $white;
+      h1{
+        font-family:"Myriad Pro Bold Condensed", Arial, Helvetica, sans-serif;
+        font-size: 54px;
+      }
+      h2{
+        margin-top: 5px;
+        font-size: 30px;
+        font-weight:normal;
+      }
+      h4{
+        margin-top: 30px;
+        font-size: 20px;
+        font-weight: normal;
+      }
+    }
+  }
+}

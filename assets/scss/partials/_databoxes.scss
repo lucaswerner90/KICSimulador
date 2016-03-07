@@ -1,0 +1,98 @@
+.data-content-box{
+	width: 100%;
+	float: left;
+	border: 2px solid $blue;
+	margin-bottom: 25px;
+	&.no-btn{
+		padding-bottom: 33px;
+	}
+	h3{
+		font-family: 'Myriad Pro Bold Condensed';
+		font-size: 30px;
+		width: 100%;
+		text-align: center;
+		color: $blue;
+		margin-top: 25px;
+	}
+	.data-table{
+		width: 620px;
+		margin: 20px auto 0;
+		.table-row{
+			width: 100%;
+			margin-bottom: 2px;
+			float: left;
+			>div{
+				height: 44px;
+				float: left;
+				&.text-label{
+					width: 496px;
+					padding-left: 16px;
+					margin-right: 10px;
+					
+				}
+				&.data-label{
+					text-align: center;
+					width: 98px;
+					p{
+						font-family: 'Myriad Pro Semibold';
+					}
+				}
+				p{
+					line-height: 44px;
+					color: $text-light;
+				}
+				&.label-blue{
+					background-color: $table-blue;
+				}
+				&.label-grey{
+					background-color: $table-grey;
+				}
+				&.label-green{
+					background-color: $table-green;
+				}
+				&.label-orange{
+					background-color: $table-orange;
+				}	
+			}
+		}
+	}
+	.show-chart-btn{
+		width: 100%;
+		float: left;
+		text-align: center;
+		button{
+			height: 38px;
+			width: 240px;
+			background-color: $green;
+			border: none;
+			outline: none;
+			margin-top: 20px;
+			margin-bottom: 22px;
+			font-family: 'Myriad Pro Bold', 'Arial';
+			font-size: 16px;
+			color: $white;
+			cursor: pointer;
+			&.opened{
+				background-color: $button-grey-dark;
+			}
+		}
+	}
+	.chart-container{
+		width: 100%;
+		float: left;
+		position: relative;
+		
+	}
+	&.self-consumer{
+		.data-table{
+			width: 518px;
+			.text-label{
+				width: 386px !important;
+				margin-right: 4px !important;
+			}
+			.data-label{
+				width: 112px !important;
+			}
+		}
+	}
+}

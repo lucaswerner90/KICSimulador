@@ -1,0 +1,16 @@
+@import "./partials/_colors";
+@import "./partials/_reset";
+@import "./partials/_generic";
+@import "./partials/_header";
+@import "./partials/_footer";
+@import "./partials/_calculator";
+@import "./partials/_graficas";
+@import "./partials/_iewarning";
+@import "./partials/_databoxes";
+@import "./partials/_mediaQuery";
+@import "./partials/_inputbox";
+
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

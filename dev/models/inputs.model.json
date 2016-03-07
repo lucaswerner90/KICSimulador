@@ -1,0 +1,255 @@
+{
+    "inputs": {
+
+        "generalCharacteristics" : [
+        {
+            "name" : "Location",
+            "key"  : "location",
+            "options" : [
+            {
+                "name" : "Hipatía (Flatland)",
+                "value": 1,
+                "label": {
+                    "name" : "Radiation: ",
+                    "value": "6410 W/m2"
+                }
+            },
+            {
+                "name" : "Noether (Flatland)",
+                "value": 2,
+                "label": {
+                    "name" : "Radiation: ",
+                    "value": "5660 W/m2"
+                }
+            },
+            {
+                "name" : "Clarke (Flatland)",
+                "value": 3,
+                "label": {
+                    "name" : "Radiation: ",
+                    "value": "3880 W/m2"
+                }
+            }
+            ]
+        },
+        {
+            "name" : "Consumer type",
+            "key"  : "consumerType",
+            "options" : [
+            {
+                "name" : "Office",
+                "value": 2,
+                "label": {
+                    "name":"Demanda profile: Office, 150 m2 | Contracted power: ",
+                    "value":"12 kW"
+                }
+            },
+            {
+                "name" : "Residential",
+                "value": 1,
+                "label": {
+                    "name":"Demanda profile: Single family home, 230 m2 | Contracted power: ",
+                    "value":"6.6 kW"
+                }
+            }
+            ]
+
+        },
+        {
+            "name" : "Legal status",
+            "key"  : "legalStatus",
+            "options" : [
+            {
+                "name" : "Residential",
+                "value": 0
+            },
+            {
+                "name" : "Office",
+                "value": 1
+            },
+            {
+                "name" : "Industria",
+                "value": 2
+            }
+            ],
+            "explanation" : "Facilities in residential consumers may be private"
+
+        },
+        {
+            "name" : "Time discrimination",
+            "key"  : "timeDiscrimination",
+            "options" : [
+            {
+                "name" : "Without HD",
+                "value": 1,
+                "label": {
+                    "name":"No hourly discrimination. The same situation with or without PV",
+                    "value":""
+                }
+
+            },
+            {
+                "name" : "With HD",
+                "value": 2,
+                "label": {
+                    "name":"Verano: punta (13h-23h), valle (23h-13h). Invierno: punta (12h-22h), valle (22h-12h). The same situation with or without PV",
+                    "value":""
+                }
+            }
+
+
+            ]
+
+        },
+        {
+            "name" : "Capacity",
+            "key"  : "capacity",
+            "options" : [
+            {
+                "name" : "High",
+                "value": 1,
+                "label": {
+                    "name":"",
+                    "value":"20 kW"
+                }
+            },
+            {
+                "name" : "Medium",
+                "value": 2,
+                "label": {
+                    "name":"",
+                    "value":"10 kW"
+                }
+            },
+            {
+                "name" : "Low",
+                "value": 3,
+                "label": {
+                    "name":"",
+                    "value":"6 kW"
+                }
+            }
+            ],
+            "explanation" : "It varies according to the type of consumer. Regulation may ban that facility capacity exceeds the contracted power."
+
+        },
+        {
+            "name" : "EPC price (€/Wp)",
+            "key"  : "epc",
+            "value" : 2,
+            "explanation" : "Recommended value: 2,0 €/Wp"
+
+        },
+        {
+            "name" : "Annual increase of electricity rates (%)",
+            "key"  : "annualRate",
+            "value" : 2,
+            "explanation" : "Medium scenario: +2% annual"
+
+        }
+
+        ],
+
+        "modelParams" : [
+        {
+            "name" : "Remuneration of surplus",
+            "key"  : "remuneration",
+            "options" : [
+             {
+                "name" : "Cession",
+                "value": 1,
+                "label": {
+                    "name":"",
+                    "value":"Self-consumer gives away their surplus to the system."
+                }
+            },
+            {
+                "name" : "Sell to pool",
+                "value": 2,
+                "label": {
+                    "name":"",
+                    "value":"You must have the legal status of company."
+                }
+            },
+
+            {
+                "name" : "Net metering",
+                "value": 3,
+                "label": {
+                    "value" : "The electricity surpluses not consumed instantly are exchanged for consumption permits that can be used in the future."
+                }
+
+            }
+            ]
+        },
+        {
+            "name" : "Backup toll",
+            "key"  : "backupToll",
+            "options" : [
+            {
+                "name" : "No",
+                "value": 0
+
+            },
+            {
+                "name" : "Yes",
+                "value": 1
+
+            }
+            ],
+            "explanation" : "Data used: 5,84c€/kWh (without hourly discrimination)"
+        },
+        {
+            "name" : "Excedents toll (%)",
+            "key" : "excedentsToll",
+            "explanation" : "A value between 0% and 100% is proposed (30%)",
+            "value" : 30
+        },
+        {
+            "name" : "Investment aids (%)",
+            "key" : "investmentAids",
+            "explanation" : "Specific aids for self-consumption facilities",
+            "value" : 20
+        },
+        {
+            "linked" : true,
+            "name" : "Rolling period of consumption permits",
+            "key" : "rollingPeriod",
+            "options" : [
+
+            {
+                "name" : "Not apply",
+                "value": 0
+            },
+            {
+                "name"  : "A calendar year",
+                "value" : 1,
+                "label" : {
+                    "value" : "The period of balance of consumption credits considered is a calendar year. Self-consumer loses permits that have not been exchanged within one calendar year."
+                }
+            }
+            ],
+            "explanation" : "This parameter only applies to net metering scheme"
+        },
+        {
+            "linked" : true,
+            "name" : "Exchange of permits between periods",
+            "key" : "exchange",
+            "options" : [
+            {
+                "name" : "Not apply",
+                "value": 0
+            },
+            {
+                "name" : "Not allowed",
+                "value": 1,
+                "label": {
+                    "value" : "Separate annual balances are made for each hourly period. Regulation may allow such exchanges. If permits of the different hourly periods have the same value, the results coincide with the scenario without time discrimination."
+                }
+            }
+            ],
+            "explanation" : "This parameter only applies to net metering scheme"
+        }
+        ]
+    }
+}

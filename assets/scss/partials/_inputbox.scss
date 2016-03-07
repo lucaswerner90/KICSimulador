@@ -1,0 +1,215 @@
+.input-box{
+	margin-top: 52px;
+	>div{
+		&:nth-child(even){
+			background-color: $table-grey;
+		}
+		&:nth-child(odd){
+			background-color: $grey-input-b;
+		}
+	}
+	.select-input{
+			width: 152px;
+			background: url(../images/dropdown-icon.png) no-repeat $white;
+			background-position: 132px 9px;
+			select{
+				width: 154px;
+			}
+		}
+	&.model-parameters{
+		.select-input{
+			width: 124px;
+			background: url(../images/dropdown-icon.png) no-repeat $white;
+			background-position: 103px 9px;
+			select{
+				width: 126px
+			}
+			&.linked{
+				select{
+					background-color: $white;
+				}
+			}
+		}
+	}
+	&.general-char{
+		.select-input{
+			width: 152px;
+			background: url(../images/dropdown-icon.png) no-repeat $white;
+			background-position: 132px 9px;
+			select{
+				width: 154px;
+			}
+		}
+	}
+	.row{
+		height: 44px;
+		margin-top: 2px;
+		padding:0 10px 0 15px;
+		position: relative;
+	
+		.select-input {
+			height: 30px;
+			overflow: hidden;
+			border: 1px solid #777;
+			float: right;
+			margin-top: 6px;
+			select{
+				cursor: pointer;
+				font-family: 'Myriad Pro Regular';
+				color: $text-light;
+				background: transparent;
+				padding: 4px;
+				font-size: 16px;
+				border: 0;
+				border-radius: 0;
+				height: 30px;
+				-webkit-appearance: none;
+				outline: none;
+				margin-left: -1px;
+				margin-top: -1px
+			}
+			input{
+				font-family: 'Myriad Pro Regular';
+				color: $text-light;
+				padding: 0;
+				padding-left: 10px;
+				font-size: 16px;
+				border: 0;
+				border-radius: 0;
+				height: 30px;
+				-webkit-appearance: none;
+				outline: none;
+			}
+		}
+		p{
+			color: $text-light;
+			line-height: 44px;
+			border-radius: 0;
+			float: left;
+		}
+		
+		&.heading {
+			background-color: $blue;
+			p{
+				font-family: 'Myriad Pro Bold';
+				color: $white		
+			}
+		}
+		
+	}
+	.row-legend{
+		background-color:transparent;
+		
+		padding:5px 16px;
+		p{
+			
+			color: #A0A0A0;
+			font-size: 14px;
+		}
+	}
+	.exp-label{
+		width: 100%;
+		height: 20px;	
+		background-color: #999999;
+	}
+	.question-icon{
+		float: right;
+		margin-top: 6px;
+		margin-right: 12px;
+		cursor: pointer;
+		.icon{
+			height: 20px;
+			width: 20px;
+			margin-top: 6px;
+			background-image: url('../images/icon-question.png')
+		}
+		.icon-collapse{
+			height: 20px;
+			width: 20px;
+			margin-top: 6px;
+			&.opened{
+				background-image: url('../images/minus-icon.png')
+			}
+			&.closed{
+				background-image: url('../images/plus-icon.png')
+			}
+		}
+		&:hover {
+			.icon{
+				opacity: 0.6;
+			}
+			p{
+				display: block;
+			}
+		}
+		p{
+			color: black;
+			display: none;
+			position: absolute;
+			background-color: $white;
+			border: 1px solid $blue;
+			padding: 5px 12px;
+			right: 200px;
+			top: 22px;
+			z-index: 1;
+			box-shadow: 4px 4px 5px #888888;
+			font-size: 12px;
+			line-height: 20px;
+			&.model-hover{
+				right: 172px;
+			}
+
+		}
+	}
+	&.regulation-presets{
+		.heading{
+			background-color: $green-presets;
+		} 
+		.table-legend{
+			width: 40%;
+			float: left;
+			padding-top: 36px;
+			background-color: $white;
+			>div{
+				padding-left: 15px;
+				background-color: #fafafa;
+				border-bottom: 1px solid #d2d2d2;
+				border-left: 1px solid #d2d2d2;
+				height: 35px;
+				font-family: "Myriad Pro Regular", Arial, Helvetica, sans-serif;
+				line-height: 35px;
+				font-size: 14px;
+				color: $text-light;
+				&:first-child{
+					border-top: 1px solid #d2d2d2;
+				}
+			}
+		}
+		.table-presets{
+			width: 60%;
+			float: right;
+			font-size: 14px;
+  		font-family: "Myriad Pro Regular", Arial, Helvetica, sans-serif;
+  		table{
+  			border-collapse: collapse;
+  			width: 100%;
+  			background-color: #fafafa;
+  			tr{
+  				margin-bottom: 2px;
+  			}
+  			td{
+  				vertical-align: middle;
+  				height: 35px;
+  				text-align: center;
+  				color: $text-light;
+  				border: 1px solid #d2d2d2;
+  			}
+  			th{
+  				border: 1px solid #d2d2d2;
+  				vertical-align: middle;
+  				height: 35px;
+  			}
+  		}
+		}
+	}
+}

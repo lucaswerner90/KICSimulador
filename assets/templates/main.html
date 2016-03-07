@@ -1,0 +1,283 @@
+<div data-ng-init="init()" class="content">
+	<div class="container">
+		<div class="left-column">
+			<div class="legend">
+				<div>
+					<h4>Regulatory framework</h4>
+				</div>
+				<div>
+					<h2>
+						self-consumption calculator
+					</h2>
+				</div>
+				<input type="text" ng-model="testInputEnergyFlows[0]">
+				<input type="text" ng-model="testInputEnergyFlows[1]">
+				<input type="text" ng-model="testInputEnergyFlows[2]">
+				<input type="text" ng-model="testInputEnergyFlows[3]">
+				<input type="text" style="margin-top: 30px;" ng-model="testInputImpact[0][0]">
+
+				<input type="text" style="margin-top: 30px;" ng-model="testPublicFinances[5]">
+				
+				<div class="description">
+					<p >
+						{{data}} Complete data of general characteristics, choose a regulatory approach and change the model parametres that you want.
+					</p>
+				</div>
+			</div>
+
+			<div class="input-box general-char"> 
+				<div class="row heading">
+					<p>General characteristics</p>
+				</div>
+				<div data-ng-repeat="input in inputs.generalCharacteristics">
+					<div class="row" >
+						<p>{{input.name}}</p>
+						<div class="select-input">
+							<select data-ng-if="input.options" data-ng-init="outputs.generalChar[input.key] = input.options[0]" data-ng-model="outputs.generalChar[input.key]" data-ng-options="option as option.name for option in input.options" >
+							</select>
+							<input 
+							data-ng-if="!input.options"
+							type="text" 
+							data-ng-init="outputs.generalChar[input.key] = input.value" 
+							data-ng-model="outputs.generalChar[input.key]"
+							>
+						</div>
+						<div class="question-icon" data-ng-if="input.explanation">
+							<div class="icon"></div>
+							<p>{{input.explanation}}</p>
+						</div>
+					</div>
+					<div class="row-legend" data-ng-if="outputs.generalChar[input.key].label">
+						<p>{{outputs.generalChar[input.key].label.name}} {{outputs.generalChar[input.key].label.value}} </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="input-box">
+				<div class="row heading">
+					<p>{{inputRegulatory.name}}</p>
+					<div class="select-input">
+						<select 
+							data-ng-model="outputs.regulatory" 
+							data-ng-options="option as option.name for option in inputRegulatory.options" >
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="input-box model-parameters">
+				<div class="row heading">
+					<p>Model parameters</p>
+				</div>
+				<div data-ng-repeat="input in inputs.modelParams">
+					<div class="row" >
+						<p>{{input.name}}</p>
+						<div class="select-input" data-ng-if="!input.linked">
+							<select 
+								data-ng-if="input.options"
+								data-ng-init="outputs.modelParams[input.key] = input.options[0]" 
+								data-ng-model="outputs.modelParams[input.key]" 
+								data-ng-options="option as option.name for option in input.options" >
+							</select>
+							<input 
+								data-ng-if="!input.options"
+								type="text" 
+								data-ng-init="outputs.modelParams[input.key] = input.value" 
+								data-ng-model="outputs.modelParams[input.key]"
+							>
+						</div>
+						<div class="select-input linked"  data-ng-if="input.linked">
+							<select 
+								data-ng-if="input.options"
+								data-ng-init="outputs.modelParams[input.key] = input.options[0]" 
+								data-ng-model="outputs.modelParams[input.key]" 
+								data-ng-options="option as option.name for option in input.options" data-ng-disabled="true" style="cursor: not-allowed">
+							</select>
+						</div>
+						<div class="question-icon" data-ng-if="input.explanation">
+							<div class="icon"></div>
+							<p class="model-hover">{{input.explanation}}</p>
+						</div>
+					</div>
+					<div class="row-legend" data-ng-if="outputs.modelParams[input.key].label">
+						<p>{{outputs.modelParams[input.key].label.value}} </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="input-box regulation-presets">
+				<div class="row heading">
+					<p>{{inputRegulatory.name}}</p>
+					<div class="question-icon collapse-button" data-ng-click="openRegulation = !openRegulation">
+						<div class="icon-collapse" data-ng-class="{'opened': openRegulation , 'closed' : !openRegulation }"></div>
+					</div>
+				</div>
+				<div class="table-legend" data-ng-show="openRegulation">
+					<div>
+						Remuneration of surplus
+					</div>
+					<div>
+						Backup toll
+					</div>
+					<div>
+						Excedents toll
+					</div>
+					<div>
+						Investment aids
+					</div>
+				</div>
+				<div class="table-presets" data-ng-show="openRegulation">
+					<table cellpadding="2">
+						<tr>
+							<th>Negative </th>
+							<th>Neutral</th> 
+							<th>Positive</th>
+						</tr>
+						<tr>
+							<td>Cession</td>
+							<td>Sell to pool</td> 
+							<td>Net metering</td>
+						</tr>
+						<tr>
+							<td>Yes</td>
+							<td>No</td> 
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>100% (N/A)</td>
+							<td>100% (N/A)</td> 
+							<td>30%</td>
+						</tr>
+						<tr>
+							<td>0%</td>
+							<td>0%</td> 
+							<td>20%</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="right-column">
+			<div class="data-content-box">
+				<h3>
+					Energy flows
+				</h3>
+				<div class="data-table">
+					<div class="table-row" data-ng-repeat="data in chartData.energyFlows">
+						<div class="text-label" data-ng-class="data.class">
+							<p>
+								{{data.name}}
+							</p>
+						</div>
+						<div class="data-label" data-ng-class="data.class">
+							<p>
+								<span>{{chartOutputs.energyFlows[data.key]}}</span> {{data.value}}
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="show-chart-btn">
+					<button ng-click="graphFlow=!graphFlow" ng-class="{'opened':graphFlow}">
+						<span ng-show="!graphFlow">Graphic</span>
+						<span ng-show="graphFlow">Close graphic</span>
+					</button>
+				</div>
+				<div class="chart-container" ng-show="graphFlow">
+					<div energy-flows></div>
+				</div>
+			</div>
+
+			<div class="data-content-box self-consumer">
+				<h3>
+					Impact for the self-consumer
+				</h3>
+				<div class="data-table">
+					<div class="table-row" data-ng-repeat="data in chartData.impactSelfConsumer">
+						<div class="text-label" data-ng-class="data.class">
+							<p>
+								{{data.name}}
+							</p>
+						</div>
+						<div class="data-label" data-ng-class="data.class">
+							<p data-ng-class="data.colorText">
+								<span>{{chartOutputs.impactSelfConsumer[data.key]}}</span> {{data.value}}
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="show-chart-btn">
+					<button ng-click="graphSelf=!graphSelf" ng-class="{'opened':graphSelf}">
+						<span ng-show="!graphSelf">Graphic</span>
+						<span ng-show="graphSelf">Close graphic</span>
+					</button>
+				</div>
+				<div class="chart-container" ng-show="graphSelf">
+					<div self-consumer></div>
+				</div>
+			</div>
+
+			<div class="data-content-box no-btn">
+				<h3>
+					Impact for the electricity system
+				</h3>
+				<div class="data-table">
+					<div class="table-row" data-ng-repeat="data in chartData.impactElectricitySystem">
+						<div class="text-label" data-ng-class="data.class">
+							<p>
+								{{data.name}}
+							</p>
+						</div>
+						<div class="data-label" data-ng-class="data.class">
+							<p data-ng-class="data.colorText">
+								<span>{{chartOutputs.impactElectricitySystem[data.key]}}</span> {{data.value}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="data-content-box">
+				<h3>
+					Impact on public finances
+				</h3>
+				<div class="data-table">
+					<div class="table-row" data-ng-repeat="data in chartData.impactPublicFinances">
+						<div class="text-label" data-ng-class="data.class">
+							<p>
+								{{data.name}}
+							</p>
+						</div>
+						<div class="data-label" data-ng-class="data.class">
+							<p data-ng-class="data.colorText">
+								<span>{{chartOutputs.impactPublicFinances[data.key]}}</span> {{data.value}}
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="show-chart-btn">
+					<button ng-click="graphFinances=!graphFinances" ng-class="{'opened':graphFinances}">
+						<span ng-show="!graphFinances">Graphic</span>
+						<span ng-show="graphFinances">Close graphic</span>
+					</button>
+				</div>
+				<div class="chart-container" ng-show="graphFinances">
+					<div public-finances></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div class="ie-warning" data-ng-show="iewarning">
+	<div>
+		<p class="text-white">
+			This application is not compatible with the version of your browser.
+		</p>
+		<div class="close-icon" data-ng-click="iewarning = !iewarning">
+		</div>
+	</div>
+</div>
+<!--
+
+-->

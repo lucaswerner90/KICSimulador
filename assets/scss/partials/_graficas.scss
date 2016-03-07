@@ -1,0 +1,168 @@
+.bar{
+  cursor: pointer;
+  &:hover{
+    opacity: 0.5;
+  }
+}
+.axis-bottom text{
+  fill: $text-light;
+}
+.axis-cumulated text {
+  font: 10px sans-serif;
+}
+.axis-cumulated path{
+  opacity: 0;
+}
+.axis-cumulated line {
+  fill: none;
+  stroke: #000;
+  opacity: .2;
+  shape-rendering: crispEdges;
+}
+.chart-svg{
+  overflow: inherit;
+  path{
+    opacity: 0;
+  }
+}
+#publicFinances{
+  margin-bottom: 60px;
+    .explanation{
+      width: 620px;
+      margin:0 auto;
+      background-color: #dcf0fa;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      padding:10px 0 10px 0;
+      p{
+        color: $blue;
+        width: 100%;
+        text-align: center;
+        display: block;
+      }
+    }
+   .eur-legend{
+      position: absolute;
+      width: 26px;
+      background-color: #eee;
+      display: table;
+      top: 74px;
+      left: 22px;
+    }
+   .years-legend{
+      position: absolute;
+      width: 503px;
+      height: 26px;
+      background-color: #eee;
+      top: 365px;
+      left: 139px;
+      display: table;
+  }
+  path {
+    stroke: $yellow;
+    stroke-width: 4;
+    fill: none;
+    &.domain{
+      stroke: #D8D6D6;
+      stroke-width: 1;
+      fill: none;
+      display: block;
+    }
+  }
+
+  .axis {
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis line, .x.axisHover line {
+    stroke: lightgrey;
+
+  }
+  .x.axisHover line{
+     stroke-width: 24;
+     cursor: pointer;
+     opacity: 0;
+  }
+  .x.axisHover text{
+    display: none;
+  }
+  .x.axis .minor {
+    stroke-opacity: .5;
+  }
+
+  .x.axis path {
+    
+  }
+
+  .y.axis path {
+
+    display: none;
+  }
+  .y.axis line{
+    fill: none;
+    stroke: lightgrey;
+
+  }
+}
+.text-pos-cum{
+  fill: $green;
+}
+.text-neg-cum{
+  fill: $red;
+}
+.tick text{
+  font-size: 14px;
+  font-family: “Myriad Pro”, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  opacity: .7;
+}
+#bars text{
+  font-size: 16px;
+  font-family: “Myriad Pro”, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+div.tooltip {
+  font-family: “Myriad Pro”, Arial, Helvetica, sans-serif;
+  width: 50px;
+  float: left;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #38abe1;
+  padding: 5px 12px;
+  top: 20px;
+  z-index: 1;
+  box-shadow: 4px 4px 5px #888;
+  font-size: 12px;
+  line-height: 20px;
+  display: none;
+  span.bold{
+    text-align: center;
+  }
+}
+.contenedorGrafica{
+  position: relative;
+  p{
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .dataFlowBar{
+   height: 40px;
+   padding: 0 15px 0 15px;
+   background-color: #fff;
+   border: 1px solid #7ac7ee;
+   position: absolute;
+   
+   box-shadow: 4px 4px 5px #888888;
+   text-align: center;
+   p{
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    opacity: 0.7;
+  }
+}
+}
+
+

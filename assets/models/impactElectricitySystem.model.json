@@ -1,0 +1,31 @@
+{
+	"impactElectricitySystem":[
+		{
+			"name" : "Annual impact over the electrical system (year 1)",
+			"key" : "electricalSystem",
+			"class" : "label-green",
+			"value" : "€",
+			"colorText" : "text-green"
+		},
+		{
+			"name" : "Annual impact on the electrical system, by kW (year 1)",
+			"key" : "electricalSystemKw",
+			"class" : "label-blue",
+			"value" : "€/kW"
+		
+		},
+		{
+			"name" : "Changes in toll revenues",
+			"key" : "toll",
+			"class" : "label-blue",
+			"value" : "€"
+			
+		},
+		{
+			"name" : "Savings due to the CO2 emissions reduction (year 1)",
+			"key" : "savings",
+			"class" : "label-blue",
+			"value" : "c€/kWh"
+		}
+	]
+}

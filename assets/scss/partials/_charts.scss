@@ -1,0 +1,58 @@
+.charts-container{
+  width: 100%;
+  margin: 160px auto 0;
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  .switch-buttons{
+    height: 38px;
+    width: 100%;
+    margin-top: 32px;
+    margin-bottom: 20px;
+    a{
+      height: 38px;
+      width: 500px;
+      cursor: pointer;
+      background-color: $button-grey-light;
+      text-align: center;
+      float: right;
+      line-height: 35px;
+      color: $text-light;
+      font-family: “Myriad Pro”, Arial, Helvetica, sans-serif;
+      text-decoration: none;
+      &:hover{
+        background-color: $blue;
+        color: $white;
+      }
+      &.active{
+        background-color: $blue;
+        color: $white;
+      }
+      &:first-child{
+        float: left;
+      }
+    }
+  }
+  .charts-box{
+    width: 1056px;
+    height: 722px;
+    position: relative;
+    border: 2px solid $blue;
+    margin-bottom: 30px;
+    .bottom{
+      height: 70px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: $blue;
+      display: table;
+      p {
+        line-height: 70px;
+        float: right;
+        color: $white;
+        margin-right: 20px;
+      }
+    }
+  }
+}

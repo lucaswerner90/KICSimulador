@@ -1,0 +1,53 @@
+{
+	"energyFlows":[
+		{
+			"name" : "Annual demand",
+			"key" : "annualDemand",
+			"class" : "label-blue",
+			"value" : "kWh"
+		},
+		{
+			"name" : "PV annual generation",
+			"key" : "annualGeneration",
+			"class" : "label-blue",
+			"value" : "kWh"
+		},
+		{
+			"name" : "Percentage of PV production over demand",
+			"key" : "production",
+			"class" : "label-blue",
+			"value" : "%"
+		},
+		{
+			"name" : "Percentage of self-consumed electricity over demand",
+			"key" : "electricityDemand",
+			"class" : "label-blue",
+			"value" : "%"
+		},
+		{
+			"name" : "PV electricity instantly self-consumed (% of production)",
+			"key" : "electricityInstantly",
+			"class" : "label-grey",
+			"value" : "%"
+		},
+		{
+			"name" : "PV electricity self-consumed in a deferred manner (% of production)",
+			"key" : "electricityManner",
+			"class" : "label-grey",
+			"value" : "%"
+		},
+		{
+			"name" : "PV electricity sold, only in the sales to the pool scheme (% of production)",
+			"key" : "electricitySold",
+			"class" : "label-grey",
+			"value" : "%"
+		},
+		{
+			"name" : "PV electricity lost (% of production)",
+			"key" : "electricityLost",
+			"class" : "label-grey",
+			"value" : "%"
+		}
+
+	]
+}
