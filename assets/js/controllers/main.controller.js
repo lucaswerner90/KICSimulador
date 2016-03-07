@@ -16,7 +16,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 
     getDataInputs();
     getCalculation();
-
+		calcularTIR();
     $scope.testInputEnergyFlows = [17777, 34, 4555, 34];
     $scope.testInputImpact = [];
     $scope.testInputImpact[0] = [];
@@ -89,24 +89,28 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 
 
 	// Calcula la aproximacion para una tir determinada
-	var calcularAprox=function(ft,n,tir){
+	var calcularAprox=function(ft,tir){
 		var suma=0;
-		for (var i = 0; i < n; i++) {
-			aprox+=(ft[i]/(Math.pow(1+tir,i)));
+		for (var i = 0; i < ft.length; i++) {
+			suma+=(ft[i]/(Math.pow(1+tir,i)));
 		}
 		return parseFloat(suma);
 	}
 
 	var calcularTIR=function(){
-		var tir=10/100;
-		var incremento=1/100;
+		var tir=50/100;
+		var incremento=100/100;
 		var ft=[-9.388,357,362,366,371,376,380,385,390,395,400,405,410,416,421,-844,432,437,443,448,454,460,466,472,478,484,490,496,502,508,515,-749,528,535,541];
-		var n=ft.length;
 		var aprox=0;
-		var estado='positive';
+		var margen_error=0.0000001;
+		var estado;
+		var i=0;
+		aprox=calcularAprox(ft,tir);
+		estado=(aprox>0)?estado='positive':estado='negative';
 
-		for (var i = 0; i < 100; i++) {
-			aprox=clacularAprox(ft,n,tir);
+		do{
+			aprox=calcularAprox(ft,tir);
+			console.log("Aprox: "+aprox+" tir: "+tir+" estado: "+estado+" paso: "+incremento);
 			if(aprox>0){
 				if(estado=='negative'){
 					estado='positive';
@@ -121,7 +125,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 				}
 				tir-=incremento;
 			}
-		}
+		}while(Math.abs(aprox)>margen_error);
 
 
 
@@ -211,7 +215,6 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
       var discrimination  = $scope.outputs.generalChar.timeDiscrimination.value;
       energyFlowsCode = [$scope.outputs.generalChar.location.value , $scope.outputs.generalChar.consumerType.value , $scope.outputs.generalChar.capacity.value , $scope.outputs.modelParams.remuneration.value].join("") ;
 
-      console.log(energyFlowsCode);
       $scope.chartOutputs.energyFlows['annualDemand']         = $scope.energyFlowsCalculation[energyFlowsCode].demand;
       $scope.chartOutputs.energyFlows['annualGeneration']     = $scope.energyFlowsCalculation[energyFlowsCode].production;
       $scope.chartOutputs.energyFlows['production']           = $scope.energyFlowsCalculation[energyFlowsCode].percentProduction;
