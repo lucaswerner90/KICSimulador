@@ -165,7 +165,7 @@
             },
             {
                 "name" : "Sell to pool",
-                "value": 2,
+                "value": 3,
                 "label": {
                     "name":"",
                     "value":"You must have the legal status of company."
@@ -174,7 +174,7 @@
 
             {
                 "name" : "Net metering",
-                "value": 3,
+                "value": 2,
                 "label": {
                     "value" : "The electricity surpluses not consumed instantly are exchanged for consumption permits that can be used in the future."
                 }
