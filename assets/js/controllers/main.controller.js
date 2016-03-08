@@ -25,7 +25,51 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 
   }
 
+	// Calcula la aproximacion para una tir determinada
+	var calcularAprox=function(ft,tir){
+	  var suma=0;
+	  for (var i = 0; i < ft.length; i++) {
+	    suma+=(ft[i]/(Math.pow(1+tir,i)));
+	  }
+	  return parseFloat(suma);
+	}
 
+	var calcularTIR=function(){
+	  console.time("Calculo tir");
+	  var tir=50/100;
+	  var incremento=100/100;
+	  var ft=[-9.388,357,362,366,371,376,380,385,390,395,400,405,410,416,421,-844,432,437,443,448,454,460,466,472,478,484,490,496,502,508,515,-749,528,535,541];
+	  var aprox=0;
+	  var margen_error=0.0000001;
+	  var estado;
+	  var i=0;
+	  aprox=calcularAprox(ft,tir);
+	  estado=(aprox>0)?estado='positive':estado='negative';
+
+	  do{
+	    aprox=calcularAprox(ft,tir);
+	    console.log("Aprox: "+aprox+" tir: "+tir+" estado: "+estado+" paso: "+incremento);
+	    if(aprox>0){
+	      if(estado=='negative'){
+	        estado='positive';
+	        incremento*=0.1;
+	      }
+	      tir+=incremento;
+	    }
+	    else{
+	      if(estado=='positive'){
+	        estado='negative';
+	        incremento*=0.1;
+	      }
+	      tir-=incremento;
+	    }
+	  }while(Math.abs(aprox)>margen_error);
+
+	  console.timeEnd("Calculo tir");
+
+
+
+	}
 
 
   //////////////////////////////
