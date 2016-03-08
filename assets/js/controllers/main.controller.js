@@ -98,6 +98,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 	}
 
 	var calcularTIR=function(){
+		console.time("Calculo tir");
 		var tir=50/100;
 		var incremento=100/100;
 		var ft=[-9.388,357,362,366,371,376,380,385,390,395,400,405,410,416,421,-844,432,437,443,448,454,460,466,472,478,484,490,496,502,508,515,-749,528,535,541];
@@ -127,6 +128,7 @@ app.controller("mainController",["$scope","calculoFactory","modelFactory" ,funct
 			}
 		}while(Math.abs(aprox)>margen_error);
 
+		console.timeEnd("Calculo tir");
 
 
 
