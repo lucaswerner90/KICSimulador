@@ -17,15 +17,15 @@
 				<input type="text" style="margin-top: 30px;" ng-model="testInputImpact[0][0]">
 
 				<input type="text" style="margin-top: 30px;" ng-model="testPublicFinances[5]">
-				
+
 				<div class="description">
-					<p >
-						{{data}} Complete data of general characteristics, choose a regulatory approach and change the model parametres that you want.
+					<p>
+					Complete data of general characteristics, choose a regulatory approach and change the model parametres that you want.
 					</p>
 				</div>
 			</div>
 
-			<div class="input-box general-char"> 
+			<div class="input-box general-char">
 				<div class="row heading">
 					<p>General characteristics</p>
 				</div>
@@ -35,10 +35,10 @@
 						<div class="select-input">
 							<select data-ng-if="input.options" data-ng-init="outputs.generalChar[input.key] = input.options[0]" data-ng-model="outputs.generalChar[input.key]" data-ng-options="option as option.name for option in input.options" >
 							</select>
-							<input 
+							<input
 							data-ng-if="!input.options"
-							type="text" 
-							data-ng-init="outputs.generalChar[input.key] = input.value" 
+							type="text"
+							data-ng-init="outputs.generalChar[input.key] = input.value"
 							data-ng-model="outputs.generalChar[input.key]"
 							>
 						</div>
@@ -57,8 +57,8 @@
 				<div class="row heading">
 					<p>{{inputRegulatory.name}}</p>
 					<div class="select-input">
-						<select 
-							data-ng-model="outputs.regulatory" 
+						<select
+							data-ng-model="outputs.regulatory"
 							data-ng-options="option as option.name for option in inputRegulatory.options" >
 						</select>
 					</div>
@@ -73,24 +73,24 @@
 					<div class="row" >
 						<p>{{input.name}}</p>
 						<div class="select-input" data-ng-if="!input.linked">
-							<select 
+							<select
 								data-ng-if="input.options"
-								data-ng-init="outputs.modelParams[input.key] = input.options[0]" 
-								data-ng-model="outputs.modelParams[input.key]" 
+								data-ng-init="outputs.modelParams[input.key] = input.options[0]"
+								data-ng-model="outputs.modelParams[input.key]"
 								data-ng-options="option as option.name for option in input.options" >
 							</select>
-							<input 
+							<input
 								data-ng-if="!input.options"
-								type="text" 
-								data-ng-init="outputs.modelParams[input.key] = input.value" 
+								type="text"
+								data-ng-init="outputs.modelParams[input.key] = input.value"
 								data-ng-model="outputs.modelParams[input.key]"
 							>
 						</div>
 						<div class="select-input linked"  data-ng-if="input.linked">
-							<select 
+							<select
 								data-ng-if="input.options"
-								data-ng-init="outputs.modelParams[input.key] = input.options[0]" 
-								data-ng-model="outputs.modelParams[input.key]" 
+								data-ng-init="outputs.modelParams[input.key] = input.options[0]"
+								data-ng-model="outputs.modelParams[input.key]"
 								data-ng-options="option as option.name for option in input.options" data-ng-disabled="true" style="cursor: not-allowed">
 							</select>
 						</div>
@@ -130,27 +130,27 @@
 					<table cellpadding="2">
 						<tr>
 							<th>Negative </th>
-							<th>Neutral</th> 
+							<th>Neutral</th>
 							<th>Positive</th>
 						</tr>
 						<tr>
 							<td>Cession</td>
-							<td>Sell to pool</td> 
+							<td>Sell to pool</td>
 							<td>Net metering</td>
 						</tr>
 						<tr>
 							<td>Yes</td>
-							<td>No</td> 
+							<td>No</td>
 							<td>No</td>
 						</tr>
 						<tr>
 							<td>100% (N/A)</td>
-							<td>100% (N/A)</td> 
+							<td>100% (N/A)</td>
 							<td>30%</td>
 						</tr>
 						<tr>
 							<td>0%</td>
-							<td>0%</td> 
+							<td>0%</td>
 							<td>20%</td>
 						</tr>
 					</table>
@@ -201,7 +201,7 @@
 						</div>
 						<div class="data-label" data-ng-class="data.class">
 							<p data-ng-class="data.colorText">
-								<span>{{chartOutputs.impactSelfConsumer[data.key]}}</span> {{data.value}}
+								<span>{{chartOutputs.impactSelfConsumer[data.key]}}</span> {{data.valor}} {{data.value}}
 							</p>
 						</div>
 					</div>
@@ -230,7 +230,7 @@
 						</div>
 						<div class="data-label" data-ng-class="data.class">
 							<p data-ng-class="data.colorText">
-								<span>{{chartOutputs.impactElectricitySystem[data.key]}}</span> {{data.value}}
+								<span>{{chartOutputs.impactElectricitySystem[data.key]}}</span>{{data.valor}} {{data.value}}
 							</p>
 						</div>
 					</div>

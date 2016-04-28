@@ -249,6 +249,24 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
     }
   }
 
+  function calculoConProductoEIncrementoSoloIVA(calculo,dato){
+    // Devuelve el incremento de la tarifa de la luz
+    var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
+    calculo[0]=dato*$rootScope.IVA;
+    for (var i = 1; i < $rootScope.annos; i++) {
+      calculo[i]=calculo[i-1]*incremento;
+    }
+  }
+
+  function calculoConProductoEIncrementoSoloIE(calculo,dato){
+    // Devuelve el incremento de la tarifa de la luz
+    var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
+    calculo[0]=dato*$rootScope.IVA;
+    for (var i = 1; i < $rootScope.annos; i++) {
+      calculo[i]=calculo[i-1]*incremento;
+    }
+  }
+
 
   var calcularPorcentajeDeEnergia=function(dato1,dato2){
     var porcentaje=Math.round((dato1/dato2)*1000)/10;
@@ -346,7 +364,9 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
       calcularMultiplicacionSeisDatosEntre100Unico:calcularMultiplicacionSeisDatosEntre100Unico,
       calcularPorcentajeDeEnergia:calcularPorcentajeDeEnergia,
       calculoDivisionProducto:calculoDivisionProducto,
-      calculoProductoEntre100Fijo:calculoProductoEntre100Fijo
+      calculoProductoEntre100Fijo:calculoProductoEntre100Fijo,
+      calculoConProductoEIncrementoSoloIVA:calculoConProductoEIncrementoSoloIVA,
+      calculoConProductoEIncrementoSoloIE:calculoConProductoEIncrementoSoloIE
 
     },
 

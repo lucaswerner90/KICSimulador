@@ -60,16 +60,12 @@
             "key"  : "legalStatus",
             "options" : [
             {
-                "name" : "Residential",
+                "name" : "Company",
                 "value": 0
             },
             {
-                "name" : "Office",
+                "name" : "Particular",
                 "value": 1
-            },
-            {
-                "name" : "Industria",
-                "value": 2
             }
             ],
             "explanation" : "Facilities in residential consumers may be private"
@@ -165,7 +161,7 @@
             },
             {
                 "name" : "Sell to pool",
-                "value": 2,
+                "value": 3,
                 "label": {
                     "name":"",
                     "value":"You must have the legal status of company."
@@ -174,7 +170,7 @@
 
             {
                 "name" : "Net metering",
-                "value": 3,
+                "value": 2,
                 "label": {
                     "value" : "The electricity surpluses not consumed instantly are exchanged for consumption permits that can be used in the future."
                 }
@@ -203,13 +199,13 @@
             "name" : "Excedents toll (%)",
             "key" : "excedentsToll",
             "explanation" : "A value between 0% and 100% is proposed (30%)",
-            "value" : 30
+            "value" : 100
         },
         {
             "name" : "Investment aids (%)",
             "key" : "investmentAids",
             "explanation" : "Specific aids for self-consumption facilities",
-            "value" : 20
+            "value" : 0
         },
         {
             "linked" : true,

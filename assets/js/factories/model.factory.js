@@ -1,6 +1,6 @@
 app.factory('modelFactory', ['$http', function($http){
 
-	var directory='/models/'
+	var directory='/models/';
 
 	return{
 		getData : function (){
@@ -44,8 +44,20 @@ app.factory('modelFactory', ['$http', function($http){
 				method : 'GET',
 				url    : directory + 'calculation/energyFlows.calc.model.json'
 			})
+		},
+		getUsertype : function(){
+			return $http({
+				method : 'GET',
+				url    : directory + 'calculation/usertype.model.json'
+			})
+		},
+		getTarifasData : function(){
+			return $http({
+				method : 'GET',
+				url    : directory + 'calculation/taxes.calc.model.json'
+			})
 		}
 
 	}
 
-}])
+}]);
