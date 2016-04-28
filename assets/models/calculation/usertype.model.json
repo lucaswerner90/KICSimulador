@@ -1,0 +1,20 @@
+{
+  "Office":{
+    "costeDeuda":0.0629,
+    "tasaDescuentoUsuario":0.1,
+    "duracionDeuda":10,
+    "apalancamiento":0.6,
+    "llaveEnMano": 2,
+    "costeDeSeguro": 8,
+    "sobrecoste": 0.62
+  },
+  "Residential":{
+    "costeDeuda":0.0875,
+    "tasaDescuentoUsuario":0.06,
+    "duracionDeuda":10,
+    "apalancamiento":0.6,
+    "llaveEnMano": 2.5,
+    "costeDeSeguro": 12,
+    "sobrecoste": 0.6
+  }
+}
