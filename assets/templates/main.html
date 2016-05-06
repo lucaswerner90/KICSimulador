@@ -10,13 +10,7 @@
 						self-consumption calculator
 					</h2>
 				</div>
-				<input type="text" ng-model="testInputEnergyFlows[0]">
-				<input type="text" ng-model="testInputEnergyFlows[1]">
-				<input type="text" ng-model="testInputEnergyFlows[2]">
-				<input type="text" ng-model="testInputEnergyFlows[3]">
-				<input type="text" style="margin-top: 30px;" ng-model="testInputImpact[0][0]">
 
-				<input type="text" style="margin-top: 30px;" ng-model="testPublicFinances[5]">
 
 				<div class="description">
 					<p>
@@ -249,8 +243,8 @@
 							</p>
 						</div>
 						<div class="data-label" data-ng-class="data.class">
-							<p data-ng-class="data.colorText">
-								<span>{{chartOutputs.impactPublicFinances[data.key]}}</span> {{data.value}}
+							<p data-ng-class="{'text-red':data.valor<0,'text-green':data.valor>=0}">
+								<span>{{chartOutputs.impactPublicFinances[data.key]}}</span>{{data.valor}} {{data.value}}
 							</p>
 						</div>
 					</div>

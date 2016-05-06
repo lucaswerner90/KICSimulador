@@ -1,5 +1,5 @@
 .input-box{
-	margin-top: 52px;
+	margin-top:52px;
 	>div{
 		&:nth-child(even){
 			background-color: $table-grey;
@@ -46,7 +46,7 @@
 		margin-top: 2px;
 		padding:0 10px 0 15px;
 		position: relative;
-	
+
 		.select-input {
 			height: 30px;
 			overflow: hidden;
@@ -87,29 +87,29 @@
 			border-radius: 0;
 			float: left;
 		}
-		
+
 		&.heading {
 			background-color: $blue;
 			p{
 				font-family: 'Myriad Pro Bold';
-				color: $white		
+				color: $white
 			}
 		}
-		
+
 	}
 	.row-legend{
 		background-color:transparent;
-		
+
 		padding:5px 16px;
 		p{
-			
+
 			color: #A0A0A0;
 			font-size: 14px;
 		}
 	}
 	.exp-label{
 		width: 100%;
-		height: 20px;	
+		height: 20px;
 		background-color: #999999;
 	}
 	.question-icon{
@@ -164,7 +164,7 @@
 	&.regulation-presets{
 		.heading{
 			background-color: $green-presets;
-		} 
+		}
 		.table-legend{
 			width: 40%;
 			float: left;

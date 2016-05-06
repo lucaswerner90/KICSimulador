@@ -1,5 +1,45 @@
 app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
 
+  function calculoAsignacionProductoDatoFijo(fijo,constante){
+    var calculo=[];
+
+    calculo[0]=constante;
+    for (var i = 1; i < $rootScope.annos; i++) {
+      calculo[i]=calculo[i-1]*fijo;
+    }
+    return calculo;
+  }
+
+  function calculoReduccionImpuestosSinFVEmpresa(dato1,dato2,constante){
+    var calculo=[];
+    for (var i = 0; i < $rootScope.annos; i++) {
+      calculo[i]=(dato1[i]+dato2[i])*constante;
+    }
+    return calculo;
+  }
+
+
+  function devolverWithoutHD(verdadero,falso){
+    if($rootScope.outputs.generalChar.timeDiscrimination.value=="1"){
+      return verdadero;
+    }else{
+      return falso;
+    }
+  }
+
+  function calculoArrayDatoFijo(calculo,dato,fijo){
+    for (var i = 0; i < $rootScope.annos; i++) {
+      calculo[i]=dato[i]*fijo;
+    }
+  }
+
+
+  function calculoArrayEntreProducto(calculo,dato){
+    var producto=(1+$rootScope.IVA)*(1+$rootScope.IE);
+    for (var i = 0; i < $rootScope.annos; i++) {
+      calculo[i]=dato[i]/producto;
+    }
+  }
 
   function calculoCosteCambioInversorConIVA(){
     $rootScope.calculos.inputs.costesOM.costeCambioInversorConIVA=$rootScope.objetoTabla.power*$rootScope.calculos.inputs.costesOM.costeCambioInversor*1000*(1+$rootScope.IVA);
@@ -19,6 +59,19 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   }
 
 
+  function calculoCosteCambioInversorConIVAActualizadoParametros(calculo,dato){
+    calculo[0]=0;
+    for (var i = 1; i < $rootScope.annos; i++) {
+      if((i+1)%$rootScope.calculos.inputs.caracteristicasTecnicas.vidaUtilInversor==0){
+        calculo[i]=$rootScope.calculos.hacienda_particular.IVACostesOM.IVACosteCambioInversorActualizado.IVACosteCambioInversor*Math.pow(1+dato,i-1);
+      }else{
+        calculo[i]=0;
+      }
+    }
+
+  }
+
+
   // N151= N4*100/L7
   function calcularProductoArrayEntre100(calculo,dato1,fijo){
     for (var i = 0; i < $rootScope.annos; i++) {
@@ -27,9 +80,61 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   }
 
   function calculoCashflowEscenarioConFV(){
-    for (var i = 0; i < $rootScope.annos; i++) {
-      $rootScope.calculos.usuario_particular.cashflowEscenarioConFV[i]=-$rootScope.calculos.usuario_particular.costeElectricidadConsumida.valor[i]-$rootScope.calculos.usuario_particular.costeElectricidadFVAutoconsumidaDiferida[i]-$rootScope.calculos.usuario_particular.costePeajeRespaldoConImpuestos.valor[i]-$rootScope.calculos.usuario_particular.costeDeOM[i]-$rootScope.calculos.usuario_particular.alquiler_de_contadorConFV[i]-$rootScope.calculos.usuario_particular.costesDeSeguro[i]-$rootScope.calculos.usuario_particular.inversionInicial[i]-$rootScope.calculos.usuario_particular.calculoGastosFinancieros.intereses[i]-$rootScope.calculos.usuario_particular.calculoGastosFinancieros.amortizacion[i];
+    if($rootScope.config.tipoUsuario=='usuario_particular'){
+      for (var i = 0; i < $rootScope.annos; i++) {
+        $rootScope.calculos[$rootScope.config.tipoUsuario].cashflowEscenarioConFV[i]=
+        -$rootScope.calculos[$rootScope.config.tipoUsuario].costeElectricidadConsumida.valor[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costeElectricidadFVAutoconsumidaDiferida[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costePeajeRespaldoConImpuestos.valor[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costeDeOM[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].alquiler_de_contadorConFV[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costesDeSeguro[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].inversionInicial[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.intereses[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.amortizacion[i];
+
+      }
+    }else{
+
+      // Referencia a la fila 133 de usuario_empresa
+      $rootScope.calculos.usuario_empresa.reduccionImpuestoSociedades=[];
+
+      // Calculo amortizacion
+      var amortizacionProvisionUsuarioEmpresa=[];
+      for (var i = 0; i < $rootScope.annos; i++) {
+        amortizacionProvisionUsuarioEmpresa[i]=(i<10)?$rootScope.calculos.inputs.inversionInicial.inversionTotalConIVA/10:0;
+      }
+      // Calculo fila 133 de usuario_empresa
+      for (var i = 0; i < $rootScope.annos; i++) {
+        $rootScope.calculos.usuario_empresa.reduccionImpuestoSociedades[i]=
+        parseInt($rootScope.calculos[$rootScope.config.tipoUsuario].costeElectricidadConsumida.valor[i]+
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costeElectricidadFVAutoconsumidaDiferida[i]+
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costeDeOM[i]+
+        $rootScope.calculos[$rootScope.config.tipoUsuario].alquiler_de_contadorConFV[i]+
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costesDeSeguro[i]+
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.intereses[i]+
+        amortizacionProvisionUsuarioEmpresa[i])*0.25;
+      }
+
+      // Calculo del cashflowEscenarioConFV de usuario_empresa
+      for (var i = 0; i < $rootScope.annos; i++) {
+        $rootScope.calculos[$rootScope.config.tipoUsuario].cashflowEscenarioConFV[i]=
+        -$rootScope.calculos[$rootScope.config.tipoUsuario].costeElectricidadConsumida.valor[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costeElectricidadFVAutoconsumidaDiferida[i]+
+        $rootScope.calculos.usuario_empresa.soloOpcionVentaPool[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costePeajeRespaldoConImpuestos.valor[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costeDeOM[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].alquiler_de_contadorConFV[i]-
+        // Fila 115
+        $rootScope.calculos[$rootScope.config.tipoUsuario].costesDeSeguro[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.intereses[i]+
+        $rootScope.calculos.usuario_empresa.reduccionImpuestoSociedades[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].inversionInicial[i]-
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.amortizacion[i];
+
+      }
     }
+
   }
 
 
@@ -41,16 +146,15 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
         // N159 = (L124-N158) = cantidadFinanciada - intereses[0]
         // N158 = N156 - N157 = pagoInicial - intereses[0]
         // N157 = intereses[0]
-        $rootScope.calculos.usuario_particular.calculoGastosFinancieros.intereses[i]= $rootScope.calculos.usuario_particular.calculoGastosFinancieros.saldo[i-1] * $rootScope.calculos.inputs.gastosFinancieros.costeDeuda;
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.intereses[i]= $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.saldo[i-1] * $rootScope.calculos.inputs.gastosFinancieros.costeDeuda;
 
-        $rootScope.calculos.usuario_particular.calculoGastosFinancieros.amortizacion[i] = $rootScope.calculos.usuario_particular.calculoGastosFinancieros.pagoInicial[i-1] - $rootScope.calculos.usuario_particular.calculoGastosFinancieros.intereses[i];
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.amortizacion[i] = $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.pagoInicial[i-1] - $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.intereses[i];
 
       }else{
-        $rootScope.calculos.usuario_particular.calculoGastosFinancieros.intereses[i]=0;
-        $rootScope.calculos.usuario_particular.calculoGastosFinancieros.amortizacion[i] =0;
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.intereses[i]=0;
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.amortizacion[i] =0;
       }
-      $rootScope.calculos.usuario_particular.calculoGastosFinancieros.saldo[i] = ($rootScope.calculos.usuario_particular.calculoGastosFinancieros.saldo[i-1] - $rootScope.calculos.usuario_particular.calculoGastosFinancieros.amortizacion[i]<0)?0:($rootScope.calculos.usuario_particular.calculoGastosFinancieros.saldo[i-1] - $rootScope.calculos.usuario_particular.calculoGastosFinancieros.amortizacion[i]);
-
+      $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.saldo[i] = ($rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.saldo[i-1] - $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.amortizacion[i]<0)?0:($rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.saldo[i-1] - $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.amortizacion[i]);
     }
   }
 
@@ -61,9 +165,9 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
     //Math.pow(base, exponente)
     for (var i = 0; i < $rootScope.annos; i++) {
       if($rootScope.calculos.inputs.gastosFinancieros.duracion>i){
-        $rootScope.calculos.usuario_particular.calculoGastosFinancieros.pagoInicial[i]=resultadoFinal;
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.pagoInicial[i]=resultadoFinal;
       }else{
-        $rootScope.calculos.usuario_particular.calculoGastosFinancieros.pagoInicial[i]=0;
+        $rootScope.calculos[$rootScope.config.tipoUsuario].calculoGastosFinancieros.pagoInicial[i]=0;
       }
     }
 
@@ -78,8 +182,13 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   // L122 = $rootScope.userType.apalancamiento
   function calcularConIVAEInversion(calculo){
     // Calculamos L119, al ser muy largo lo metemos en una variable
-    $rootScope.calculos.inputs.inversionInicial.inversionTotalConIVA=$rootScope.objetoTabla.power*1.15*$rootScope.userType.llaveEnMano*
-    (1+$rootScope.IVA-(parseInt($rootScope.outputs.modelParams.investmentAids)/100))*1000;
+    if($rootScope.config.tipoUsuario=='usuario_particular'){
+      $rootScope.calculos.inputs.inversionInicial.inversionTotalConIVA=$rootScope.objetoTabla.power*1.15*$rootScope.userType.llaveEnMano*
+      (1+$rootScope.IVA-(parseInt($rootScope.outputs.modelParams.investmentAids)/100))*1000;
+    }else{
+      $rootScope.calculos.inputs.inversionInicial.inversionTotalConIVA=$rootScope.objetoTabla.power*1.15*$rootScope.userType.llaveEnMano*
+      (1-(parseInt($rootScope.outputs.modelParams.investmentAids)/100))*1000;
+    }
 
     // Calculamos N118
     calculo[0]=$rootScope.calculos.inputs.inversionInicial.inversionTotalConIVA*(1-$rootScope.userType.apalancamiento);
@@ -97,6 +206,12 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
     }
   }
 
+
+  function calcularSumaMultiplicacionDosArrays(calculo,dato1,dato2,dato3){
+    for (var i = 0; i < $rootScope.annos; i++) {
+      calculo[i]=(dato3[i]*(dato1[i]+dato2[i]))/100;
+    }
+  }
 
   function calcularMultiplicacionSeisDatosEntre100(calculo,dato1,dato2,dato3,dato4,dato5,dato6){
     for (var i = 0; i < $rootScope.annos; i++) {
@@ -197,12 +312,12 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   }
 
   function calculoN33UsuarioParticular(){
-    $rootScope.calculos.usuario_particular.sinDH.electricidadExtraidaDeLaRed[0]=$rootScope.objetoTabla.consumedNet;
+    $rootScope.calculos[$rootScope.config.tipoUsuario].sinDH.electricidadExtraidaDeLaRed[0]=$rootScope.objetoTabla.consumedNet;
     for (var i = 1; i < $rootScope.annos; i++) {
-      $rootScope.calculos.usuario_particular.sinDH.electricidadExtraidaDeLaRed[i]=
-      $rootScope.calculos.usuario_particular.sinDH.electricidadExtraidaDeLaRed[i-1]+
-      $rootScope.calculos.usuario_particular.sinDH.electricidadAutoconsumidaInstantaneamente[i-1]-
-      $rootScope.calculos.usuario_particular.sinDH.electricidadAutoconsumidaInstantaneamente[i];
+      $rootScope.calculos[$rootScope.config.tipoUsuario].sinDH.electricidadExtraidaDeLaRed[i]=
+      $rootScope.calculos[$rootScope.config.tipoUsuario].sinDH.electricidadExtraidaDeLaRed[i-1]+
+      $rootScope.calculos[$rootScope.config.tipoUsuario].sinDH.electricidadAutoconsumidaInstantaneamente[i-1]-
+      $rootScope.calculos[$rootScope.config.tipoUsuario].sinDH.electricidadAutoconsumidaInstantaneamente[i];
     }
   }
 
@@ -224,7 +339,7 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
     // Devuelve el incremento de la tarifa de la luz
     var incremento=1+($rootScope.IPC);
 
-    calculo[0]=dato*(1+$rootScope.IVA);
+    calculo[0]=($rootScope.config.tipoUsuario=="usuario_empresa")?dato:dato*(1+$rootScope.IVA);
     for (var i = 1; i < $rootScope.annos; i++) {
       calculo[i]=calculo[i-1]*incremento;
     }
@@ -261,9 +376,19 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   function calculoConProductoEIncrementoSoloIE(calculo,dato){
     // Devuelve el incremento de la tarifa de la luz
     var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
-    calculo[0]=dato*$rootScope.IVA;
+    calculo[0]=Math.round(dato*$rootScope.IE*100)/100;
     for (var i = 1; i < $rootScope.annos; i++) {
-      calculo[i]=calculo[i-1]*incremento;
+      calculo[i]=(calculo[i-1]*incremento);
+    }
+  }
+
+
+  function calculoConProductoEIncrementoSoloCrecimiento(calculo,dato){
+    // Devuelve el incremento de la tarifa de la luz
+    var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
+    calculo[0]=dato;
+    for (var i = 1; i < $rootScope.annos; i++) {
+      calculo[i]=(calculo[i-1]*incremento);
     }
   }
 
@@ -296,13 +421,13 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   var calcularTIR=function(ft){
     if(ft!==undefined){
       var prevAprox;
-      var precisionCalculo=Math.pow(10,2);
+      var precisionCalculo=Math.pow(10,1);
       var i=0;
       var tir=0;
       var incremento=0.1;
       ft=ft.map(Math.round);
       var aprox=0;
-      var margen_error=0.0000001;
+      var margen_error=0.001;
       var estado;
       aprox=calcularAprox(ft,tir);
       prevAprox=aprox;
@@ -311,15 +436,15 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
         prevAprox=aprox;
         aprox=calcularAprox(ft,tir);
         if(aprox>0){
-          incremento=(prevAprox<0)?incremento*0.5:incremento;
+          incremento=(prevAprox<0)?incremento*0.1:incremento;
           tir+=incremento;
         }
         else{
-          incremento=(prevAprox>0)?incremento*0.5:incremento;
+          incremento=(prevAprox>0)?incremento*0.1:incremento;
           tir-=incremento;
         }
         i++;
-      }while(parseFloat(incremento)>margen_error);
+      }while(i<50000);
       tir*=100;
 
       // Redondeamos el resultado de la tir a 1 decimal
@@ -342,6 +467,7 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
       calculoCosteCambioInversorConIVA:calculoCosteCambioInversorConIVA,
       calculoInteresesDelUsuarioParticular:calculoInteresesDelUsuarioParticular,
       calculoPagoInicial:calculoPagoInicial,
+      calculoReduccionImpuestosSinFVEmpresa:calculoReduccionImpuestosSinFVEmpresa,
       calcularConIVAEInversion:calcularConIVAEInversion,
       calcularProductoIPC:calcularProductoIPC,
       calcularMultiplicacionSeisDatosEntre100:calcularMultiplicacionSeisDatosEntre100,
@@ -352,6 +478,8 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
       calculoProductoFijoEntre100:calculoProductoFijoEntre100,
       calculoProductoEntre100:calculoProductoEntre100,
       calculoSuma:calculoSuma,
+      calculoAsignacionProductoDatoFijo:calculoAsignacionProductoDatoFijo,
+      calculoArrayDatoFijo:calculoArrayDatoFijo,
       calculoResta:calculoResta,
       calculoSumaResta:calculoSumaResta,
       calculoSumaArrayConDato:calculoSumaArrayConDato,
@@ -361,11 +489,16 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
       calculoConProductoEIncremento:calculoConProductoEIncremento,
       calcularTIR:calcularTIR,
       calcularVAN:calcularVAN,
+      calcularSumaMultiplicacionDosArrays:calcularSumaMultiplicacionDosArrays,
       calcularMultiplicacionSeisDatosEntre100Unico:calcularMultiplicacionSeisDatosEntre100Unico,
       calcularPorcentajeDeEnergia:calcularPorcentajeDeEnergia,
       calculoDivisionProducto:calculoDivisionProducto,
+      calculoConProductoEIncrementoSoloCrecimiento:calculoConProductoEIncrementoSoloCrecimiento,
       calculoProductoEntre100Fijo:calculoProductoEntre100Fijo,
       calculoConProductoEIncrementoSoloIVA:calculoConProductoEIncrementoSoloIVA,
+      devolverWithoutHD:devolverWithoutHD,
+      calculoArrayEntreProducto:calculoArrayEntreProducto,
+      calculoCosteCambioInversorConIVAActualizadoParametros:calculoCosteCambioInversorConIVAActualizadoParametros,
       calculoConProductoEIncrementoSoloIE:calculoConProductoEIncrementoSoloIE
 
     },
@@ -376,9 +509,6 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   };
 
   return calculosGenericosFactory;
-
-
-
 
 
 

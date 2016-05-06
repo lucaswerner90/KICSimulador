@@ -1,5 +1,5 @@
 {
-  "Company": {
+  "Residential": {
     "terminoEnergiaSinDh": 14.26,
     "terminoEnergiaConDhP1": 16.92,
     "terminoEnergiaConDhP2": 8.42,
@@ -21,7 +21,7 @@
     "peajeRespaldoConDhP3": 0,
     "sobrecoste": 0.6
   },
-  "Particular": {
+  "Office": {
     "terminoEnergiaSinDh": 14,
     "terminoEnergiaConDhP1": 16.3,
     "terminoEnergiaConDhP2": 8.2,

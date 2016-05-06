@@ -11,7 +11,6 @@ function($rootScope,calculosGenericosFactory){
       // Calculamos la fila 7 de sistema_electrico
       $rootScope.calculos.sistema_electrico.impactoPorLosPeajesDeAcceso.sinDH.peajesDeAccesoSinDH=$rootScope.datosTarifa.peajeAccesoEnergiaSinDh;
 
-
       // Calculamos la fila 6 de sistema_electrico
       if($rootScope.outputs.modelParams.remuneration.name=="Sell to pool" || $rootScope.outputs.modelParams.remuneration.name=="Cession"){
         $rootScope.calculos.sistema_electrico.impactoPorLosPeajesDeAcceso.sinDH.reduccionElectricidadComprada=-$rootScope.objetoTabla.selfConsumedInstant;
@@ -169,8 +168,15 @@ function($rootScope,calculosGenericosFactory){
 
 
         // Calculamos la fila 56 de sistema_electrico
-        $rootScope.calculos.sistema_electrico.impactoAnualParaSistemaElectricoMwn.impactoAnualSistemaElectricoEspanol=Math.round($rootScope.calculos.sistema_electrico.impactoPorLosPeajesDeAcceso.valor+$rootScope.calculos.sistema_electrico.impactoPorPagosPorCapacidad.valor+$rootScope.calculos.sistema_electrico.impactoSobrecostesServiciosAjuste.valor+$rootScope.calculos.sistema_electrico.impactoPeajesBalanceNeto.valor+$rootScope.calculos.sistema_electrico.impactoPorPeajeDeRespaldo+$rootScope.calculos.sistema_electrico.ingresosPorPeajeDeGeneracion.valor+$rootScope.calculos.sistema_electrico.ingresosEnergiaCedidaSistema.valor);
-
+        $rootScope.calculos.sistema_electrico.impactoAnualParaSistemaElectricoMwn.impactoAnualSistemaElectricoEspanol=Math.round(
+          $rootScope.calculos.sistema_electrico.impactoPorLosPeajesDeAcceso.valor+
+          $rootScope.calculos.sistema_electrico.impactoPorPagosPorCapacidad.valor+
+          $rootScope.calculos.sistema_electrico.impactoSobrecostesServiciosAjuste.valor+
+          $rootScope.calculos.sistema_electrico.impactoPeajesBalanceNeto.valor+
+          $rootScope.calculos.sistema_electrico.impactoPorPeajeDeRespaldo+
+          $rootScope.calculos.sistema_electrico.ingresosPorPeajeDeGeneracion.valor+
+          $rootScope.calculos.sistema_electrico.ingresosEnergiaCedidaSistema.valor
+        );
         // Calculamos la fila 55 de sistema_electrico
         // $rootScope.objetoTabla.power   -> fila 57 sistema_electrico
         $rootScope.calculos.sistema_electrico.impactoAnualParaSistemaElectricoMwn.valor=Math.round(($rootScope.calculos.sistema_electrico.impactoAnualParaSistemaElectricoMwn.impactoAnualSistemaElectricoEspanol/$rootScope.objetoTabla.power)*10)/10;
@@ -181,9 +187,6 @@ function($rootScope,calculosGenericosFactory){
         // Calculo fila 62 sistema_electrico
         $rootScope.calculos.sistema_electrico.ahorroEmisionCO2=Math.round((($rootScope.objetoTabla.production/1000)*$rootScope.calculos.inputs.informacionDeContorno.sistema_electrico.factorEmisionCO2*$rootScope.calculos.inputs.informacionDeContorno.sistema_electrico.precioToneladaCO2)*10)/10;
 
-
-
-        debugger;
 
       }
     }

@@ -5,7 +5,7 @@ exports.src={
   "dir_index":"./assets/index.html",
   "dir_js":"./assets/js/**/*.js",
   "dir_fonts":"./assets/fonts",
-  "dir_img":"./assets/images/**/*.{gif,png,jpg,jpeg}",
+  "dir_img":"./assets/images/**/*.{gif,png,jpg,jpeg,ico}",
   "dir_models":"./assets/models/**/*.json",
   "dir_templates":"./assets/templates/**/*.html",
   "concat_libs":[

@@ -1,6 +1,6 @@
 app.controller("mainController",
-["$scope","calculoImpactOnPublicFinancesFactory","calculoImpactForTheElectricitySystemFactory","calculoImpactForTheSelfConsumerFactory","calculoImpactForTheElectricityFactory","$rootScope","modelFactory" ,
-function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectricitySystemFactory,calculoImpactForTheSelfConsumerFactory,calculoImpactForTheElectricityFactory,$rootScope, modelFactory){
+["$scope","calculoImpactOnPublicFinancesFactory","calculoImpactForTheElectricitySystemFactory","calculoImpactForTheSelfConsumerFactory","calculoImpactForTheElectricitySystemFactory","$rootScope","modelFactory" ,
+function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectricitySystemFactory,calculoImpactForTheSelfConsumerFactory,calculoImpactForTheElectricitySystemFactory,$rootScope, modelFactory){
 
 
 
@@ -17,7 +17,7 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 		// Watch cambios para generar los outputs de energy flows
 		$scope.$watch('outputs', function(newValue, oldValue, scope) {
-			if($scope.outputs.generalChar && $scope.outputs.modelParams && $scope.energyFlowsCalculation){
+			if($scope.outputs.generalChar && $scope.outputs.modelParams && $scope.energyFlowsCalculation && $scope.inputs){
 				fillEnergyFlow();
 			}
 		},true);
@@ -29,9 +29,15 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 			}
 		});
 
+		$scope.$watch('outputs.generalChar.capacity.value', function(newValue, oldValue,scope) {
+			if(oldValue!="" && $scope.outputs.modelParams && $scope.inputs && $scope.outputs.generalChar && $scope.energyFlowsCalculation){
+				fillEnergyFlow();
+			}
+		});
+
 		//Cambiar valor de los inputs en model params vinculados a remuneration
 		$scope.$watch('outputs.modelParams.remuneration.value', function(newValue, oldValue, scope) {
-			if($scope.outputs.modelParams && $scope.inputs){
+			if($scope.outputs.modelParams && $scope.inputs && $scope.outputs.generalChar && $scope.energyFlowsCalculation){
 				if(newValue === 3){
 					$scope.outputs.modelParams.rollingPeriod = $scope.inputs.modelParams[4].options[1];
 					$scope.outputs.modelParams.exchange      = $scope.inputs.modelParams[5].options[1];
@@ -39,6 +45,7 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 					$scope.outputs.modelParams.rollingPeriod = $scope.inputs.modelParams[4].options[0];
 					$scope.outputs.modelParams.exchange      = $scope.inputs.modelParams[5].options[0];
 				}
+				fillEnergyFlow();
 			}
 		});
 
@@ -46,7 +53,6 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 		//Cambiar inputs del model params vinculados a Regulation approach
 
 		$scope.$watch('outputs.regulatory.value', function(newValue, oldValue, scope) {
-
 			if ($scope.outputs.regulatory && $scope.inputs) {
 				switch(newValue){
 					case 0:
@@ -94,9 +100,12 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 		$rootScope.producto=(1+$rootScope.IVA)*(1+$rootScope.IE);
 		// Configuracion con constantes a partir de inputs
 		$rootScope.config={
-			tableCode:""
+			tableCode:"",
+			tipoUsuario:'usuario_particular',
+			tipoHacienda:'hacienda_particular'
 		};
 		$rootScope.vidaUtil=25;
+		$rootScope.vidaUtilInversor=16;
 		// Numero de annos
 		$rootScope.annos=35;
 		$rootScope.datosTarifa={};
@@ -107,6 +116,286 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 	// Inicializa los objetos de los calculos
 	function initDatosCalculados(){
+		var objetoHacienda={
+			// Referencia al tercer dato de las tablas de hacienda
+			cashflowAcumulado:[],
+
+			IEElectricidadConsumidaFormaDiferida:{
+
+				// Referencia a la fila 66 de hacienda_particular
+				valor:[],
+
+				sinDH:{
+
+					// Referencia a la fila 67 de hacienda_particular
+					valor:[],
+
+					// Referencia a la fila 68 de hacienda_particular
+					cuotaBN:[]
+				},
+				conDH:{
+
+					// Referencia de la fila 69 de hacienda_particular
+					valor:[],
+
+					// Referencia a la fila 71 de hacienda_particular
+					p1:[],
+
+					// Referencia a la fila 72 de hacienda_particular
+					p2:[],
+
+					// Referencia a la fila 73 de hacienda_particular
+					p3:[]
+				}
+			},
+			IVAElectricidadAutoconsumidaDiferida:{
+
+				// Referencia a la fila 48 de hacienda_particular
+				valor:[],
+
+				sinDH:{
+
+					// Referencia a la fila 49 de hacienda_particular
+					valor:[],
+
+					// Referencia a la fila 50 de hacienda_particular
+					IVASinCuotaBN:[],
+
+					// Referencia a la fila 52 de hacienda_particular
+					electricidadAutoconsumidaDeFormaDiferida:[]
+				},
+				conDH:{
+					// Referencia a la fila 53 de hacienda_particular
+					valor:[],
+
+					p1:{
+						// Referencia a la fila 56 de hacienda_particular
+						cuotaBN:0,
+
+						// Referencia a la fila 57 de hacienda_particular
+						electricidadAutoconsumidaDeFormaDiferida:[]
+					},
+
+					p2:{
+
+						// Referencia a la fila 60 de hacienda_particular
+						cuotaBN:0,
+
+						// Referencia a la fila 61 de hacienda_particular
+						electricidadAutoconsumidaDeFormaDiferida:[]
+					},
+
+					p3:{
+
+						// Referencia a la fila 64 de hacienda_particular
+						cuotaBN:0,
+
+						// Referencia a la fila 65 de hacienda_particular
+						electricidadAutoconsumidaDeFormaDiferida:[]
+					}
+				}
+			},
+			IEElectricidadConsumida:{
+
+
+				// Fila 45 hacienda_particular
+				valor:[],
+				sinDH:{
+
+					// Fila 46 hacienda_particular
+					valor:[],
+
+					// Fila 26 hacienda_particular
+					terminoDeEnergiaSinDH:[]
+				},
+				conDH:{
+
+					// Referencia a la fila 47 de hacienda_particular
+					valor:[],
+
+					// Fila 29 hacienda_particular
+					p1:[],
+
+					// Fila 30 hacienda_particular
+					p2:[],
+
+					// Fila 31 hacienda_particular
+					p3:[]
+				}
+			},
+			recaudacionEscenarioSinFV:{
+
+				// Referencia a la fila 4 de hacienda_particular
+				valor:[],
+
+				IVAAlquilerContador:{
+
+					// Referencia a la fila 32 de hacienda_particular
+					valor:[]
+				},
+				IEElectricidadConsumida:{
+
+					// Referencia a la fila 24 de hacienda_particular
+					valor:[],
+					sinDH:{
+
+						// Referencia a la fila 25 de hacienda_particular
+						valor:[]
+					},
+					conDH:{
+
+						// Referencia a la fila 27 de hacienda_particular
+						valor:[]
+					}
+				},
+				IVAElectricidadConsumida:{
+
+					// Referencia a la fila 5 de hacienda_particular
+					valor:[]
+				},
+				sinDH:{
+
+					// Referencia a la fila 6 de hacienda_particular
+					valor:[],
+
+					// Referencia a la fila 8 de hacienda_particular
+					IVATerminoEnergiaSinDH:[]
+				},
+				conDH:{
+
+					// Referencia a la fila 10 de hacienda_particular
+					valor:[],
+
+					IVATerminoEnergiaConDH:{
+
+						// Referencia a la fila 16 de hacienda_particular
+						p1:[],
+
+						// Referencia a la fila 18 de hacienda_particular
+						p2:[],
+
+						// Referencia a la fila 20 de hacienda_particular
+						p3:[]
+					}
+				}
+			},
+			IVAElectricidadConsumida:{
+
+				// Referencia a la fila 36 de hacienda_particular
+				valor:[],
+				conDH:{
+					electricidadConsumida:{
+
+						// Referencia a la fila 39 de hacienda_particular
+						valor:[],
+
+						// Referencia a la fila 41 de hacienda_particular
+						p1:[],
+
+						// Referencia a la fila 42 de hacienda_particular
+						p2:[],
+
+						// Referencia a la fila 43 de hacienda_particular
+						p3:[]
+					}
+				},
+				sinDH:{
+
+					// Referencia a la fila 37 de hacienda_particular
+					valor:[],
+
+					// Referencia a la fila 8 de hacienda_particular
+					terminoDeEnergiaSinDH:[],
+
+					// Referencia a la fila 38 de hacienda_particular
+					electricidadConsumida:0
+				}
+			},
+
+			IVAPeajeRespaldo:{
+
+				// Referencia a la fila 74 de hacienda_particular
+				valor:[],
+				// Referencia a la fila 75 de hacienda_particular
+				valorBasePeajeRespaldo:[]
+			},
+			IVACostesOM:{
+
+				// Referencia a la fila 77 de hacienda_particular
+				valor:[],
+				IVACostesOM:{
+					// Referencia a la fila 78 de hacienda_particular
+					valor:[],
+
+					// Referencia a la fila 79 de hacienda_particular
+					costesOM:0
+				},
+				IVACosteCambioInversorActualizado:{
+
+					// Referencia a la fila 80 de hacienda_particular
+					valor:[],
+
+					// Referencia a la fila 81 de hacienda_particular
+					IVACosteCambioInversor:0
+				}
+			},
+			IVAAlquilerContador:{
+
+				// Referencia a la fila 86 de hacienda_particular
+				valor:[]
+			},
+			impuestoPrimasSeguros:{
+
+				// Referencia a la fila 88 de hacienda_particular
+				valor:[],
+
+				// Referencia a la fila 89 de hacienda_particular
+				costeSeguro:[]
+			},
+			IVAInversion:{
+
+				// Referencia a la fila 91 de hacienda_particular
+				valor:0,
+
+				// Referencia a la fila 92 de hacienda_particular
+				inversionSinIVA:0
+			},
+			ayudasPublicasALaInversion:{
+
+				// Referenia a la fila 95 de hacienda_particular
+				valor:0,
+
+				// Referencia a la fila 96 de hacienda_particular
+				porcentajeDeAyudasPublicas:0
+			},
+			incrementoImpuestoSociedadesInstalador:{
+
+				// Referencia a la fila 97 de hacienda_particular
+				valor:0
+
+			},
+			recaudacionEscenarioConFV:{
+
+				// Referencia a la fila 35 de hacienda_particular
+				valor:[]
+			},
+			diferenciaRecaudacion:{
+
+				// Referencia a la fila 100 de hacienda_particular
+				valor:[]
+			},
+			indicadores:{
+
+				// Referencia a la fila 104 de hacienda_particular
+				VAN:0,
+
+				// Referencia a la fila 106 de hacienda_particular
+				VANPorMWn:0,
+
+				// Referencia a la fila 107 de hacienda_particular
+				VANPorKWPVGenerado:0
+			}
+		};
 		var objetoUsuario={
 			// Referencia a la fila 149
 			VANPagoPrincipal:0,
@@ -290,16 +579,19 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 		$rootScope.calculos={
 			inputs:{
-
+				alquilerDeContadores:{
+					sinFV:10,
+					conFV:20
+				},
 				informacionDeContorno:{
-						sistema_electrico:{
+					sistema_electrico:{
 
-							// Referencia a la fila 82 de inputs
-							factorEmisionCO2:0.41,
+						// Referencia a la fila 82 de inputs
+						factorEmisionCO2:0.41,
 
-							// Referencia a la fila 83 de inputs
-							precioToneladaCO2:15
-						}
+						// Referencia a la fila 83 de inputs
+						precioToneladaCO2:15
+					}
 				},
 
 				// Inputs I21
@@ -541,70 +833,11 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 			},
 			usuario_particular:objetoUsuario,
 			usuario_empresa:objetoUsuario,
-			hacienda_particular:{
-				IEElectricidadConsumida:{
-					valor:[]
-				},
-				recaudacionEscenarioSinFV:{
-					conDH:{
-						IVATerminoEnergiaConDH:{
-
-							// Referencia a la fila 16 de hacienda_particular
-							p1:[],
-
-							// Referencia a la fila 18 de hacienda_particular
-							p2:[],
-
-							// Referencia a la fila 20 de hacienda_particular
-							p3:[]
-						}
-					}
-				},
-				IVAElectricidadConsumida:{
-
-					// Referencia a la fila 36 de hacienda_particular
-					valor:[],
-					conDH:{
-						electricidadConsumida:{
-
-							// Referencia a la fila 39 de hacienda_particular
-							valor:[],
-
-							// Referencia a la fila 41 de hacienda_particular
-							p1:[],
-
-							// Referencia a la fila 42 de hacienda_particular
-							p2:[],
-
-							// Referencia a la fila 43 de hacienda_particular
-							p3:[]
-						}
-					},
-					sinDH:{
-
-						// Referencia a la fila 37 de hacienda_particular
-						valor:[],
-
-						// Referencia a la fila 8 de hacienda_particular
-						terminoDeEnergiaSinDH:[],
-
-						// Referencia a la fila 38 de hacienda_particular
-						electricidadConsumida:0
-					}
-				},
-
-				IVAPeajeRespaldo:{
-
-					// Referencia a la fila 75 de hacienda_particular
-					valorBasePeajeRespaldo:[]
-				}
-			}
+			hacienda_particular:objetoHacienda,
+			hacienda_empresa:objetoHacienda
 		}
+
 	}
-
-
-
-
 	// Funcion de inicializacion de los datos relacionados con los inputs
 	function initDatos(){
 
@@ -621,7 +854,6 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 		$scope.testInputImpact = [];
 		$scope.testInputImpact[0] = [];
 		$scope.testInputImpact[0][0] = 3;
-		$scope.testPublicFinances = [6003, 5300, 4903, 4500, 2444, 2344, 1230, 403, -233, -344, -1400, -1923, -2654, -2920, -3402, -4002, -5543, -5666, -6003, -6349, -6703, -8003, -8304, -9003, -9600];
 		getDataInputs();
 
 
@@ -755,8 +987,19 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 		var discrimination  = $scope.outputs.generalChar.timeDiscrimination.value;
 
+		if($scope.outputs.generalChar.legalStatus.name=='Company'){
+			$rootScope.config.tipoUsuario='usuario_empresa';
+			$rootScope.config.tipoHacienda='hacienda_empresa';
+			$rootScope.producto=(1+$rootScope.IE);
+		}else{
+			$rootScope.config.tipoUsuario='usuario_particular';
+			$rootScope.config.tipoHacienda='hacienda_particular';
+			$rootScope.producto=(1+$rootScope.IE)*(1+$rootScope.IVA);
+		}
+
 		// Nos devuelve el código de 4 numeros compuesto por diferentes variables que usaremos para discriminar los datos
 		// en el
+
 		$rootScope.config.tableCode = [$scope.outputs.generalChar.location.value ,
 			$scope.outputs.generalChar.consumerType.value ,
 			$scope.outputs.generalChar.capacity.value ,
@@ -781,10 +1024,26 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 			$rootScope.objetoTabla=$scope.energyFlowsCalculation[$rootScope.config.tableCode];
 
-			$rootScope.datosTarifa=$scope.tarifas[$scope.outputs.generalChar.legalStatus.name];
+			$rootScope.datosTarifa=$scope.tarifas[$scope.outputs.generalChar.consumerType.name];
 			$rootScope.userType=$scope.userType[$scope.outputs.generalChar.consumerType.name];
+			//$rootScope.userType=$scope.userType[$scope.outputs.generalChar.legalStatus.name];
 
 			$rootScope.outputs=$scope.outputs;
+
+
+			// Refrescamos los datos de la primera grafica
+			$scope.testInputEnergyFlows[0]=[$rootScope.objetoTabla.selfConsumedInstant];
+
+			// WITHOUT_HD == true
+			if($rootScope.outputs.generalChar.timeDiscrimination.value=="1"){
+				$scope.testInputEnergyFlows[1]=$rootScope.objetoTabla.summarySelfConsumedDeferredGlobal;
+				$scope.testInputEnergyFlows[2]=$rootScope.objetoTabla.summarySoldGlobal;
+				$scope.testInputEnergyFlows[3]=$rootScope.objetoTabla.summaryLostGlobal;
+			}else{
+				$scope.testInputEnergyFlows[1]=$rootScope.objetoTabla.summarySelfConsumedDeferredBalance;
+				$scope.testInputEnergyFlows[2]=$rootScope.objetoTabla.summarySoldBalance;
+				$scope.testInputEnergyFlows[3]=$rootScope.objetoTabla.summaryLostBalance;
+			}
 
 
 
@@ -805,32 +1064,32 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 			promesaCalculoImpactForTheSelfConsumer.then(function(){
 
 				// Calculamos la TIR
-				$rootScope.calculos.usuario_particular.TIR=calculoImpactForTheSelfConsumerFactory.calculos.calcularTIR($rootScope.calculos.usuario_particular.cashflowDelAhorroComparativoEnElCasoFV);
-				$scope.testInputImpact[0][0]=$rootScope.calculos.usuario_particular.TIR;
-				$scope.chartData.impactSelfConsumer[0].valor=$rootScope.calculos.usuario_particular.TIR;
+				$rootScope.calculos[$rootScope.config.tipoUsuario].TIR=calculoImpactForTheSelfConsumerFactory.calculos.calcularTIR($rootScope.calculos[$rootScope.config.tipoUsuario].cashflowDelAhorroComparativoEnElCasoFV);
+				$scope.testInputImpact[0][0]=$rootScope.calculos[$rootScope.config.tipoUsuario].TIR;
+				$scope.chartData.impactSelfConsumer[0].valor=$rootScope.calculos[$rootScope.config.tipoUsuario].TIR;
 
 				// Calculamos el VAN
-				$rootScope.calculos.usuario_particular.VAN=calculoImpactForTheSelfConsumerFactory.calculos.calcularVAN($rootScope.calculos.usuario_particular.cashflowDelAhorroComparativoEnElCasoFV,$rootScope.userType.tasaDescuentoUsuario);
+				$rootScope.calculos[$rootScope.config.tipoUsuario].VAN=calculoImpactForTheSelfConsumerFactory.calculos.calcularVAN($rootScope.calculos[$rootScope.config.tipoUsuario].cashflowDelAhorroComparativoEnElCasoFV,$rootScope.userType.tasaDescuentoUsuario);
 
-				$scope.chartData.impactSelfConsumer[1].valor=$rootScope.calculos.usuario_particular.VAN;
+				$scope.chartData.impactSelfConsumer[1].valor=$rootScope.calculos[$rootScope.config.tipoUsuario].VAN;
 
 				// Calculamos el porcentaje de ahorro de energia en el anno 2
-				$rootScope.calculos.usuario_particular.porcentajeDeAhorroDeEnergia=-calculoImpactForTheSelfConsumerFactory.calculos.calcularPorcentajeDeEnergia($rootScope.calculos.usuario_particular.cashflowDelAhorroComparativoEnElCasoFV[1],$rootScope.calculos.usuario_particular.cashflowEscenarioSinFV[1]);
+				$rootScope.calculos[$rootScope.config.tipoUsuario].porcentajeDeAhorroDeEnergia=-calculoImpactForTheSelfConsumerFactory.calculos.calcularPorcentajeDeEnergia($rootScope.calculos[$rootScope.config.tipoUsuario].cashflowDelAhorroComparativoEnElCasoFV[1],$rootScope.calculos[$rootScope.config.tipoUsuario].cashflowEscenarioSinFV[1]);
 
-				$scope.chartData.impactSelfConsumer[2].valor=$rootScope.calculos.usuario_particular.porcentajeDeAhorroDeEnergia;
+				$scope.chartData.impactSelfConsumer[2].valor=$rootScope.calculos[$rootScope.config.tipoUsuario].porcentajeDeAhorroDeEnergia;
 
 				// Calculamos el payback simple
-				var arrayFiltrado=$rootScope.calculos.usuario_particular.indicadores.cashflowAcumulado.filter(function(x){
+				var arrayFiltrado=$rootScope.calculos[$rootScope.config.tipoUsuario].indicadores.cashflowAcumulado.filter(function(x){
 					return x<0;
 				});
-				$scope.chartData.impactSelfConsumer[3].valor=arrayFiltrado.length-1;
+				$scope.chartData.impactSelfConsumer[3].valor=(arrayFiltrado.length==0)?arrayFiltrado.length:arrayFiltrado.length;
 
 
 				// Calculo del precio medio de la electricidad comprada
-				$scope.chartData.impactSelfConsumer[4].valor=$rootScope.calculos.usuario_particular.precioMedioElectricidadComprada[0];
+				$scope.chartData.impactSelfConsumer[4].valor=$rootScope.calculos[$rootScope.config.tipoUsuario].precioMedioElectricidadComprada[0];
 
 				// Calculo del LCOE
-				$scope.chartData.impactSelfConsumer[5].valor=$rootScope.calculos.usuario_particular.LCOE;
+				$scope.chartData.impactSelfConsumer[5].valor=$rootScope.calculos[$rootScope.config.tipoUsuario].LCOE;
 
 
 				$scope.$apply();
@@ -858,6 +1117,21 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 
 					promesaCalculoImpactOnPublicFinancesFactory.then(function(){
+						$scope.chartData.impactPublicFinances[0].valor=$rootScope.calculos[$rootScope.config.tipoHacienda].indicadores.VANPorMWn;
+						$scope.chartData.impactPublicFinances[1].valor=$rootScope.calculos[$rootScope.config.tipoHacienda].indicadores.VANPorKWPVGenerado;
+						$scope.testPublicFinances=$rootScope.calculos[$rootScope.config.tipoHacienda].cashflowAcumulado;
+						var arrayFiltrado=[];
+						if($rootScope.config.tipoUsuario=='usuario_empresa'){
+							var k=0;
+							while(k<$rootScope.calculos[$rootScope.config.tipoHacienda].cashflowAcumulado.length && $rootScope.calculos[$rootScope.config.tipoHacienda].cashflowAcumulado[k]>0){
+								arrayFiltrado.push($rootScope.calculos[$rootScope.config.tipoHacienda].cashflowAcumulado[k]);
+								k++;
+							}
+						}else{
+							arrayFiltrado=$rootScope.calculos[$rootScope.config.tipoHacienda].cashflowAcumulado.filter(function(x){
+								return x>0;
+							});
+						}						$scope.chartData.impactPublicFinances[2].valor=(arrayFiltrado.length==0)?arrayFiltrado.length:arrayFiltrado.length;
 
 						$scope.$apply();
 					});

@@ -60,12 +60,12 @@
             "key"  : "legalStatus",
             "options" : [
             {
-                "name" : "Company",
-                "value": 0
-            },
-            {
                 "name" : "Particular",
                 "value": 1
+            },
+            {
+                "name" : "Company",
+                "value": 0
             }
             ],
             "explanation" : "Facilities in residential consumers may be private"

@@ -19,7 +19,7 @@ app.directive('selfConsumer', function() {
       function crearGrafica(){
 
         var data = scope.testInputImpact;
-      
+
         var max = Math.max.apply(Math, data);
 
         var margin = {top: 20, right: 0, bottom: 30, left: 110},
@@ -27,7 +27,7 @@ app.directive('selfConsumer', function() {
         height = 200 - margin.top - margin.bottom;
 
         var y = d3.scale.linear()
-        .domain([0, ((max > 10) ? (100 * Math.ceil(max / 100)) : (10 * Math.ceil(max / 10)) )])
+        .domain([-max*1.5,max*1.5])
         .range([height, 0])
 
         var x0 = d3.scale.ordinal()
@@ -35,7 +35,7 @@ app.directive('selfConsumer', function() {
         .rangeBands([0, width], .3);
 
         var color = d3.scale.ordinal()
-        .range([ "#3aaa35"]);
+        .range([ (max>=0)?"#3aaa35":"red"]);
 
         var barClass = d3.scale.ordinal()
         .range(["w", "wo"]);
@@ -50,7 +50,7 @@ app.directive('selfConsumer', function() {
         .tickPadding(6)
         .orient("bottom");
 
-        var yAxis = d3.svg.axis().ticks(5)
+        var yAxis = d3.svg.axis().ticks(4)
         .scale(y)
         .orient("left");
 
@@ -79,19 +79,20 @@ app.directive('selfConsumer', function() {
         .enter().append("rect")
         .attr("width", x1.rangeBand())
         .attr("height", function(d){ return Math.abs(y(d) - y(0));})
-        
+
         .attr("x", function(d, i) { return x0(i); })
         .attr("y", function(d) { return y(Math.max(0, d)); });
 
         svg.selectAll(".w ")
         .append("text")
         .style("fill", "#fff")
-        .attr("x", function(d, i) { return (x0(i) + (x1.rangeBand() / 2) - 10); })
+        .style("font-family", "'Myriad Pro Semibold'")
+        .attr("x", function(d, i) { return (x0(i) + (x1.rangeBand() / 2) - 30); })
         .attr("y", function(d) { return (y(Math.max(0, d))+18); })
         .html(function(d, i){ return d + "%"});
         var textBar = svg.selectAll(".w");
 
-      }        
+      }
     }
   };
 });
