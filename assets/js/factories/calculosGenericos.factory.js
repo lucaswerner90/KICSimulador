@@ -357,7 +357,7 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
 
   function calculoConProductoEIncremento(calculo,dato){
     // Devuelve el incremento de la tarifa de la luz
-    var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
+    var incremento=1+(parseFloat($rootScope.outputs.generalChar.annualRate)/100);
     calculo[0]=dato*$rootScope.producto;
     for (var i = 1; i < $rootScope.annos; i++) {
       calculo[i]=calculo[i-1]*incremento;
@@ -366,7 +366,7 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
 
   function calculoConProductoEIncrementoSoloIVA(calculo,dato){
     // Devuelve el incremento de la tarifa de la luz
-    var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
+    var incremento=1+(parseFloat($rootScope.outputs.generalChar.annualRate)/100);
     calculo[0]=dato*$rootScope.IVA;
     for (var i = 1; i < $rootScope.annos; i++) {
       calculo[i]=calculo[i-1]*incremento;
@@ -375,7 +375,7 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
 
   function calculoConProductoEIncrementoSoloIE(calculo,dato){
     // Devuelve el incremento de la tarifa de la luz
-    var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
+    var incremento=1+(parseFloat($rootScope.outputs.generalChar.annualRate)/100);
     calculo[0]=Math.round(dato*$rootScope.IE*100)/100;
     for (var i = 1; i < $rootScope.annos; i++) {
       calculo[i]=(calculo[i-1]*incremento);
@@ -385,7 +385,7 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
 
   function calculoConProductoEIncrementoSoloCrecimiento(calculo,dato){
     // Devuelve el incremento de la tarifa de la luz
-    var incremento=1+(parseInt($rootScope.outputs.generalChar.annualRate)/100);
+    var incremento=1+(parseFloat($rootScope.outputs.generalChar.annualRate)/100);
     calculo[0]=dato;
     for (var i = 1; i < $rootScope.annos; i++) {
       calculo[i]=(calculo[i-1]*incremento);

@@ -25,13 +25,29 @@
     opacity: 0;
   }
 }
+#selfConsumer{
+  .explanation{
+    width: 620px;
+    margin:0 auto;
+    background-color: #dcf0fa;
+    margin-top: 11px;
+    margin-bottom: 15px;
+    padding:10px 0 10px 0;
+    p{
+      color: $blue;
+      width: 100%;
+      text-align: center;
+      display: block;
+    }
+  }
+}
 #publicFinances{
   margin-bottom: 60px;
     .explanation{
       width: 620px;
       margin:0 auto;
       background-color: #dcf0fa;
-      margin-top: 10px;
+      margin-top: 11px;
       margin-bottom: 15px;
       padding:10px 0 10px 0;
       p{
@@ -91,7 +107,7 @@
   }
 
   .x.axis path {
-    
+
   }
 
   .y.axis path {
@@ -152,7 +168,7 @@ div.tooltip {
    background-color: #fff;
    border: 1px solid #7ac7ee;
    position: absolute;
-   
+
    box-shadow: 4px 4px 5px #888888;
    text-align: center;
    p{
@@ -164,5 +180,3 @@ div.tooltip {
   }
 }
 }
-
-

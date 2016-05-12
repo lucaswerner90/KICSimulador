@@ -1,6 +1,6 @@
 app.factory('modelFactory', ['$http', function($http){
 
-	var directory='/models/';
+	var directory='models/';
 
 	return{
 		getData : function (){
@@ -18,7 +18,7 @@ app.factory('modelFactory', ['$http', function($http){
 		getEnergyFlows : function(){
 			return $http({
 				method : 'GET',
-				url    : directory+'energyFLows.model.json'
+				url    : directory+'energyFlows.model.json'
 			})
 		},
 		getImpactSelfConsumer : function(){

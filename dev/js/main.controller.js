@@ -1026,7 +1026,7 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 			$rootScope.datosTarifa=$scope.tarifas[$scope.outputs.generalChar.consumerType.name];
 			$rootScope.userType=$scope.userType[$scope.outputs.generalChar.consumerType.name];
-			//$rootScope.userType=$scope.userType[$scope.outputs.generalChar.legalStatus.name];
+			$rootScope.userType.llaveEnMano=($scope.outputs.generalChar.epc=="")?0:parseInt($scope.outputs.generalChar.epc);
 
 			$rootScope.outputs=$scope.outputs;
 

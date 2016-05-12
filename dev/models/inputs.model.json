@@ -7,7 +7,7 @@
             "key"  : "location",
             "options" : [
             {
-                "name" : "Hipatía (Flatland)",
+                "name" : "Sunland",
                 "value": 1,
                 "label": {
                     "name" : "Radiation: ",
@@ -15,7 +15,7 @@
                 }
             },
             {
-                "name" : "Noether (Flatland)",
+                "name" : "Midland",
                 "value": 2,
                 "label": {
                     "name" : "Radiation: ",
@@ -23,7 +23,7 @@
                 }
             },
             {
-                "name" : "Clarke (Flatland)",
+                "name" : "Cloudland",
                 "value": 3,
                 "label": {
                     "name" : "Radiation: ",

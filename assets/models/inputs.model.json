@@ -7,7 +7,7 @@
             "key"  : "location",
             "options" : [
             {
-                "name" : "Hipatía (Flatland)",
+                "name" : "Sunland",
                 "value": 1,
                 "label": {
                     "name" : "Radiation: ",
@@ -15,7 +15,7 @@
                 }
             },
             {
-                "name" : "Noether (Flatland)",
+                "name" : "Midland",
                 "value": 2,
                 "label": {
                     "name" : "Radiation: ",
@@ -23,7 +23,7 @@
                 }
             },
             {
-                "name" : "Clarke (Flatland)",
+                "name" : "Cloudland",
                 "value": 3,
                 "label": {
                     "name" : "Radiation: ",
@@ -132,14 +132,14 @@
         {
             "name" : "EPC price (€/Wp)",
             "key"  : "epc",
-            "value" : 2,
+            "value" : "2.0",
             "explanation" : "Recommended value: 2,0 €/Wp"
 
         },
         {
             "name" : "Annual increase of electricity rates (%)",
             "key"  : "annualRate",
-            "value" : 2,
+            "value" : "2.0",
             "explanation" : "Medium scenario: +2% annual"
 
         }

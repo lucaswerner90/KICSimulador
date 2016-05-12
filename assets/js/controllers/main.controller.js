@@ -1026,10 +1026,10 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 			$rootScope.datosTarifa=$scope.tarifas[$scope.outputs.generalChar.consumerType.name];
 			$rootScope.userType=$scope.userType[$scope.outputs.generalChar.consumerType.name];
-			//$rootScope.userType=$scope.userType[$scope.outputs.generalChar.legalStatus.name];
+			$rootScope.userType.llaveEnMano=($scope.outputs.generalChar.epc=="")?0:parseFloat($scope.outputs.generalChar.epc);
 
 			$rootScope.outputs=$scope.outputs;
-
+			$rootScope.outputs.generalChar.annualRate=($scope.outputs.generalChar.annualRate=="")?0:parseFloat($scope.outputs.generalChar.annualRate);
 
 			// Refrescamos los datos de la primera grafica
 			$scope.testInputEnergyFlows[0]=[$rootScope.objetoTabla.selfConsumedInstant];

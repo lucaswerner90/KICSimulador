@@ -82,8 +82,8 @@ link:function(scope){
             .data(data)
             .enter()
             .append('text')
-            .attr({'x':function(d) {return xscale(d)-75; },'y':function(d,i){ return yscale(i)+45; }})
-            .text(function(d){ return d+" kWh"; }).style({'fill':'#fff','font-size':'14px'});
+            .attr({'x':function(d) {var xPosition = 0;if(xscale(d)-75<20){xPosition = 20;}else {xPosition = xscale(d)-75;}return xPosition; },'y':function(d,i){ return yscale(i)+45; }})
+            .text(function(d){ return d+" kWh"; }).style({'fill':function(d){var colors="#fff";if(d<1500){colors = "#343434"};return colors },'font-size':'14px'});
 
             var line = d3.selectAll('.tick').append('line');
             line.attr('x1', 500)
