@@ -59,14 +59,14 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 					$scope.outputs.modelParams.remuneration   = $scope.inputs.modelParams[0].options[0];
 					$scope.outputs.modelParams.backupToll     = $scope.inputs.modelParams[1].options[1];
 					$scope.outputs.modelParams.excedentsToll  = 100;
-					$scope.outputs.modelParams.investmentAids = 100;
+					$scope.outputs.modelParams.investmentAids = 0;
 					break;
 
 					case 1:
 					$scope.outputs.modelParams.remuneration   = $scope.inputs.modelParams[0].options[1];
 					$scope.outputs.modelParams.backupToll     = $scope.inputs.modelParams[1].options[0];
 					$scope.outputs.modelParams.excedentsToll  = 100;
-					$scope.outputs.modelParams.investmentAids = 100;
+					$scope.outputs.modelParams.investmentAids = 0;
 					break;
 
 					case 2:
@@ -882,7 +882,7 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 				modelFactory.getRegulatory().then(
 					function(response){
 						$scope.inputRegulatory = response.data.regulatory;
-						$scope.outputs.regulatory = $scope.inputRegulatory.options[1];
+						$scope.outputs.regulatory = $scope.inputRegulatory.options[0];
 
 						modelFactory.getEnergyFlows().then(
 							function(response){
@@ -1086,7 +1086,7 @@ function($scope,calculoImpactOnPublicFinancesFactory,calculoImpactForTheElectric
 
 
 				// Calculo del precio medio de la electricidad comprada
-				$scope.chartData.impactSelfConsumer[4].valor=$rootScope.calculos[$rootScope.config.tipoUsuario].precioMedioElectricidadComprada[0];
+				$scope.chartData.impactSelfConsumer[4].valor=Math.round($rootScope.calculos[$rootScope.config.tipoUsuario].precioMedioElectricidadComprada[0]*10)/10;
 
 				// Calculo del LCOE
 				$scope.chartData.impactSelfConsumer[5].valor=$rootScope.calculos[$rootScope.config.tipoUsuario].LCOE;

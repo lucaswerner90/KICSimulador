@@ -603,7 +603,7 @@ app.factory('calculoImpactForTheSelfConsumerFactory',["$rootScope","calculosGene
 					// Fila 130 de USUARIO-PARTICULAR
 					calculosGenericosFactory.calculos.calculoResta($rootScope.calculos[$rootScope.config.tipoUsuario].cashflowDelAhorroComparativoEnElCasoFV,$rootScope.calculos[$rootScope.config.tipoUsuario].cashflowEscenarioConFV,$rootScope.calculos[$rootScope.config.tipoUsuario].cashflowEscenarioSinFV);
 					$rootScope.calculos[$rootScope.config.tipoUsuario].cashflowDelAhorroComparativoEnElCasoFV=$rootScope.calculos[$rootScope.config.tipoUsuario].cashflowDelAhorroComparativoEnElCasoFV.map(Math.round);
-
+					debugger;
 
 					// Fila 137 de USUARIO-PARTICULAR
 					calculosGenericosFactory.calculos.calculoSumaArrayConDato($rootScope.calculos[$rootScope.config.tipoUsuario].indicadores.cashflowAcumulado,$rootScope.calculos[$rootScope.config.tipoUsuario].cashflowDelAhorroComparativoEnElCasoFV);
@@ -611,7 +611,16 @@ app.factory('calculoImpactForTheSelfConsumerFactory',["$rootScope","calculosGene
 					$rootScope.calculos[$rootScope.config.tipoUsuario].indicadores.cashflowAcumulado=$rootScope.calculos[$rootScope.config.tipoUsuario].indicadores.cashflowAcumulado.map(Math.round);
 
 					// Fila 151 de USUARIO-PARTICULAR
+					if($rootScope.config.tipoUsuario=='usuario_empresa'){
+
+						for (var i = 0; i < $rootScope.annos; i++) {
+						$rootScope.calculos[$rootScope.config.tipoUsuario].precioMedioElectricidadComprada[i]=(($rootScope.calculos[$rootScope.config.tipoUsuario].costeElectricidadConsumidaSinFV[i]+$rootScope.calculos[$rootScope.config.tipoUsuario].alquiler_de_contador[i])*100/$rootScope.objetoTabla.demand);
+						}
+					}else{
+
 					calculosGenericosFactory.calculos.calcularProductoArrayEntre100($rootScope.calculos[$rootScope.config.tipoUsuario].precioMedioElectricidadComprada,$rootScope.calculos[$rootScope.config.tipoUsuario].cashflowEscenarioSinFV,$rootScope.objetoTabla.demand);
+
+					}
 
 					// Fila 142 de USUARIO-PARTICULAR
 					calculosGenericosFactory.calculos.calculoConAsignacionDirecta($rootScope.calculos[$rootScope.config.tipoUsuario].energiaProducida,0.006,$rootScope.objetoTabla.production);

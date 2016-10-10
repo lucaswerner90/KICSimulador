@@ -108,7 +108,7 @@ function($rootScope,calculosGenericosFactory){
 
         // Calculamos la fila 35
         $rootScope.calculos.sistema_electrico.impactoPeajesBalanceNeto.sinDH.peajeBNSinDH=$rootScope.calculos.sistema_electrico.impactoPorLosPeajesDeAcceso.sinDH.peajesDeAccesoSinDH*$rootScope.outputs.modelParams.excedentsToll/100;
-
+        debugger;
         // Calculamos la fila 33 sistema_electrico
         $rootScope.calculos.sistema_electrico.impactoPeajesBalanceNeto.sinDH.valor=calculosGenericosFactory.calculos.calculoProductoEntre100Fijo($rootScope.calculos.sistema_electrico.impactoPeajesBalanceNeto.sinDH.peajeBNSinDH,$rootScope.objetoTabla.selfConsumedDeferred);
 

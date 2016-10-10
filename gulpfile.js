@@ -15,7 +15,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var minifyCss = require('gulp-minify-css');
 var cssBase64 = require('gulp-css-base64');
 var minifyHTML = require('gulp-htmlmin');
-var imageop = require('gulp-image-optimization');
+//var imageop = require('gulp-image-optimization');
 var clean = require('gulp-clean');
 var requireDir = require('require-dir');
 var convert=require("gulp-convert");
@@ -49,7 +49,7 @@ gulp.task('clean',function(){
 // /////////////////////////////////////////////////////////////////
 gulp.task('imagenes',function(){
   return gulp.src(path.src.dir_img)
-  .pipe(imageop())
+  //.pipe(imageop())
   .pipe(gulp.dest(directorio.dir_img));
 });
 // /////////////////////////////////////////////////////////////////

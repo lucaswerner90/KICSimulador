@@ -42,8 +42,13 @@ app.factory('calculosGenericosFactory',['$rootScope',function($rootScope){
   }
 
   function calculoCosteCambioInversorConIVA(){
+      if($rootScope.config.tipoUsuario=='usuario_particular'){
     $rootScope.calculos.inputs.costesOM.costeCambioInversorConIVA=$rootScope.objetoTabla.power*$rootScope.calculos.inputs.costesOM.costeCambioInversor*1000*(1+$rootScope.IVA);
+  }else{
+    $rootScope.calculos.inputs.costesOM.costeCambioInversorConIVA=$rootScope.objetoTabla.power*$rootScope.calculos.inputs.costesOM.costeCambioInversor*1000;
+
   }
+}
 
 
   function calculoCosteCambioInversorConIVAActualizado(){

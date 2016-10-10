@@ -132,14 +132,14 @@
         {
             "name" : "EPC price (€/Wp)",
             "key"  : "epc",
-            "value" : 2,
+            "value" : "2.0",
             "explanation" : "Recommended value: 2,0 €/Wp"
 
         },
         {
             "name" : "Annual increase of electricity rates (%)",
             "key"  : "annualRate",
-            "value" : 2,
+            "value" : "2.0",
             "explanation" : "Medium scenario: +2% annual"
 
         }
