@@ -5,6 +5,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
+
+  .container{
+    img{
+      margin-top: 5%;
+    }
+  }
   
   .opacity-blue {
     display: table;

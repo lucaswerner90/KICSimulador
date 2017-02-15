@@ -1,0 +1,25 @@
+{
+	"impactPublicFinances":[
+		{
+			"name" : "NPV calculated at 25 years",
+			"key" : "irr",
+			"class" : "label-orange",
+			"value" : "€",
+			"colorText" : "text-red"
+		},
+		{
+			"name" : "NPV calculated at 25 years",
+			"key" : "npv",
+			"class" : "label-blue",
+			"value" : "c€/kWh"
+
+		},
+		{
+			"name" : "Percentage of savings in electricity bill (year 2)",
+			"key" : "savings",
+			"class" : "label-blue",
+			"value" : "years"
+
+		}
+	]
+}

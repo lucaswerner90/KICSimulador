@@ -156,7 +156,7 @@ gulp.task('copy-models',function(){
 // /////////////////////////////////////////////////////////////////
 // INYECTA LOS FICHEROS JS Y CSS EN EL INDEX.html
 // /////////////////////////////////////////////////////////////////
-gulp.task('inject',['copy-models','fonts','imagenes','copy-index-html','libs','sass','angular-files'],function(){
+gulp.task('inject',['copy-models','fonts','copy-index-html','libs','sass','angular-files'],function(){
   var options={
     'relative':true,
     'removeTags':true

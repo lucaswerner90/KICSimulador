@@ -1,0 +1,47 @@
+{
+	"impactSelfConsumer":[
+		{
+			"name" : "IRR calculated at 25 years",
+			"key" : "irr",
+			"class" : "label-blue",
+			"value" : "%",
+			"colorText" : ""
+		},
+		{
+			"name" : "NPV calculated at 25 years",
+			"key" : "npv",
+			"class" : "label-blue",
+			"value" : "€",
+			"colorText" : "text-red"
+		},
+		{
+			"name" : "Percentage of savings in electricity bill (year 2)",
+			"key" : "savings",
+			"class" : "label-blue",
+			"value" : "%",
+			"colorText" : "text-red"
+		},
+		{
+			"name" : "Payback simple (Non-viable investment, over 12 years)",
+			"key" : "payback",
+			"class" : "label-green",
+			"value" : "years"
+		},
+		{
+			"name" : "Average price of purchased electricity",
+			"key" : "price",
+			"class" : "label-green",
+			"value" : "c€/kWh",
+			"colorText" : "text-green"
+		},
+		{
+			"name" : "LCOE (Grid parity)",
+			"key" : "lcoe",
+			"class" : "label-green",
+			"value" : "c€/kWh",
+			"colorText" : "text-green"
+		}
+
+
+	]
+}

@@ -1,0 +1,20 @@
+{
+	"regulatory": {
+		"name" : "Regulatory approach presets",
+		"key"  : "regulation",
+		"options" : [
+		{
+			"name" : "Neutral",
+			"value" : 1
+		},
+		{
+			"name"  : "Negative",
+			"value" : 0
+		},
+		{
+			"name" : "Positive",
+			"value" : 2
+		}
+		]
+	}
+}
